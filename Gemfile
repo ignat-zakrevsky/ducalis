@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem 'policial', github: 'volmer/policial'
 gem 'regexp-examples'
 gem 'thor'
+gem 'git'
 
 group :test, :development do
   gem 'pry'
