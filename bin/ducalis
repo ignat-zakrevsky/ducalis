@@ -1,69 +1,35 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'policial'
 require 'rubocop'
+require 'policial'
 require 'benchmark'
-
 require 'git'
 
-module RuboCop
-  FILES_PATTERN = /Gemfile\z|.+\.rb\z/
-
-  class ConfigLoader
-    DOTFILE = ".customcop.yml"
-    #TODO: hint to safe const redefining
-  end
-
-  class TargetFinder
-    alias find_unpatched find
-
-    def find(args)
-      git = Git.open('/Users/Ignat/Work/ducalis')
-      replacement = git.diff("origin/master")
-        .select { |x| x.path =~ /Gemfile\z|.+\.rb\z/ }
-        .map { |x| '/Users/Ignat/Work/ducalis/' + x.path }
-
-      return replacement if replacement
-
-      find_unpatched(args)
-    end
-  end
-
-  class Runner
-    alias inspect_file_unpatched inspect_file
-
-    def inspect_file(file)
-      git = Git.open('/Users/Ignat/Work/ducalis')
-      changes = git.diff("origin/master").find { |x| ('/Users/Ignat/Work/ducalis/' + x.path) == file.path }
-      patch = Policial::Patch.new(changes.patch)
-
-      offenses, updated = inspect_file_unpatched(file)
-      offenses = offenses.reject do |o|
-        patch.changed_lines.detect{ |line| line.number == offenses.first.line }.changed?
-      end
-      [offenses, updated]
-    end
-  end
+def process_args!
+  flag = PatchedRubocop::MODES.keys
+                              .map { |key| key if ARGV.delete("--#{key}") }
+                              .find { |possible_flag| !possible_flag.nil? }
+  PatchedRubocop.configure!(flag || :all)
 end
 
-# todo: parse args +    # --branch
-#+    # --diff
-#+    # --all
-#+  end
-# + не забыть про CI версию
-# создать класс для всей это хрени насчет измененных файлов чтобы каждый раз не дерагть гит
-# добавть вариант --all когда класс на все отвечает ДА!
-# ну и вроде не все так плохо!
-# написать нормальное сообщение об ошибке (что на самом деле ее нет)
+if ARGV.any? { |arg| arg == '--ci' }
+  require './lib/cli.rb'
 
+  CLI.start(ARGV - %w[--ci])
+else
+  require './lib/patched_rubocop/rubo_cop.rb'
 
+  process_args!
 
-cli = RuboCop::CLI.new
-time = Benchmark.realtime do
-  cli.run
+  result = 0
+  cli = RuboCop::CLI.new
+  time = Benchmark.realtime do
+    result = cli.run
+  end
+
+  puts "Finished in #{time} seconds" if cli.options[:debug]
+  puts "\033[42mBuild still green. Nothing to worry about\033[0m" if result != 0
 end
 
-puts "Finished in #{time} seconds" if cli.options[:debug]
-puts "\033[42mBuild still green. Nothing to worry about\033[0m"
 exit 0

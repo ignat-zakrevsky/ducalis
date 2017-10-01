@@ -27,5 +27,3 @@ class CLI < Thor
     Runner.new(adapter.new(options)).call
   end
 end
-
-CLI.start(ARGV)
