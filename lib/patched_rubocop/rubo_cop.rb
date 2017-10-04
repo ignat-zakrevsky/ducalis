@@ -6,13 +6,19 @@ require './lib/patched_rubocop/git_runner'
 
 module RuboCop
   class ConfigLoader
+    original_verbose = $VERBOSE
+    $VERBOSE = nil
     DOTFILE = '.customcop.yml'
+    $VERBOSE = original_verbose
   end
-end
 
-module RuboCop
-  class TargetFinder; prepend PatchedRubocop::GitTurgetFinder; end
-  class Runner; prepend PatchedRubocop::GitRunner; end
+  class TargetFinder
+    prepend PatchedRubocop::GitTurgetFinder
+  end
+
+  class Runner
+    prepend PatchedRubocop::GitRunner
+  end
 end
 
 module PatchedRubocop

@@ -2,25 +2,31 @@
 # frozen_string_literal: true
 
 require 'rubocop'
-require 'policial'
 require 'benchmark'
-require 'git'
+require 'thor'
 
-def process_args!
-  flag = PatchedRubocop::MODES.keys
-                              .map { |key| key if ARGV.delete("--#{key}") }
-                              .find { |possible_flag| !possible_flag.nil? }
-  PatchedRubocop.configure!(flag || :all)
+require './lib/cli'
+require './lib/passed_args'
+require './lib/patched_rubocop/rubo_cop'
+
+if PassedArgs.help_command?
+  puts 'You can start Ducalis in the next modes:'
+  puts "     --ci   check files from remote PR. \
+Env `GITHUB_TOKEN` should be available to receive PRs files."
+  puts ' --branch   check files in RuboCop style against branch.'
+  puts '  --index   check files in RuboCop style against index.'
+  puts '    --all   [default] check all files in RuboCop style.'
+  puts ''
+
+  Ducalis::CLI.start(ARGV)
+  RuboCop::CLI.new.run
+  exit 0
 end
 
-if ARGV.any? { |arg| arg == '--ci' }
-  require './lib/cli.rb'
-
-  CLI.start(ARGV - %w[--ci])
+if PassedArgs.ci_mode?
+  Ducalis::CLI.start(ARGV - %w[--ci])
 else
-  require './lib/patched_rubocop/rubo_cop.rb'
-
-  process_args!
+  PassedArgs.process_args!
 
   result = 0
   cli = RuboCop::CLI.new
@@ -29,7 +35,7 @@ else
   end
 
   puts "Finished in #{time} seconds" if cli.options[:debug]
-  puts "\033[42mBuild still green. Nothing to worry about\033[0m" if result != 0
+  puts "\033[42mBuild still green. Nothing to worry about\033[0m" if result == 1
 end
 
 exit 0

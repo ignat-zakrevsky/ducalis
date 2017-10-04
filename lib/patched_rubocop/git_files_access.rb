@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
+require 'git'
 require 'singleton'
 
 require './lib/patched_rubocop/diffs'
-require './lib/patched_rubocop/git_turget_finder'
-require './lib/patched_rubocop/git_runner'
 
 module PatchedRubocop
   class GitFilesAccess
