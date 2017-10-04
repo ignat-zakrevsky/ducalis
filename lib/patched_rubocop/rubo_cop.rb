@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
+require './lib/utils'
 require './lib/patched_rubocop/git_files_access'
 require './lib/patched_rubocop/git_turget_finder'
 require './lib/patched_rubocop/git_runner'
 
 module RuboCop
   class ConfigLoader
-    original_verbose = $VERBOSE
-    $VERBOSE = nil
-    DOTFILE = '.customcop.yml'
-    $VERBOSE = original_verbose
+    Utils.silence_warnings { DOTFILE = '.customcop.yml' }
   end
 
   class TargetFinder

@@ -15,4 +15,11 @@ module Utils
                   .size
     1 - (longer - same) / string1.size.to_f
   end
+
+  def silence_warnings
+    original_verbose = $VERBOSE
+    $VERBOSE = nil
+    yield
+    $VERBOSE = original_verbose
+  end
 end
