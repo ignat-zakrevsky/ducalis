@@ -3,6 +3,9 @@
 module RuboCop
   class ConfigLoader
     ::Ducalis::Utils.silence_warnings { DOTFILE = ::Ducalis::DOTFILE }
+    class << self
+      prepend PatchedRubocop::DucalisConfigLoader
+    end
   end
 
   class TargetFinder

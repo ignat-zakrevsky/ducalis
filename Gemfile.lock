@@ -8,6 +8,13 @@ GIT
       octokit (~> 4.7)
       rubocop (~> 0.50)
 
+PATH
+  remote: .
+  specs:
+    ducalis (0.1.0)
+      regexp-examples (~> 1.3.2)
+      rubocop (~> 0.50.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -92,17 +99,17 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.16.a)
+  ducalis!
   git
   policial!
   pry
   puma
+  rake (~> 12.1)
   regexp-examples
   rspec
   sinatra
   thor
-
-RUBY VERSION
-   ruby 2.4.2p198
 
 BUNDLED WITH
    1.16.0.pre.2

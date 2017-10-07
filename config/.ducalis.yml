@@ -1,28 +1,9 @@
 AllCops:
   DisabledByDefault: true
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Exclude:
-    - 'bin/*'
-    - 'client/**/*'
-    - 'coverage/**/*'
-    - 'db/**/*'
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
-require:
-  - ./lib/ducalis/cops/useless_only.rb
-  - ./lib/ducalis/cops/controllers_except.rb
-  - ./lib/ducalis/cops/callbacks_activerecord.rb
-  - ./lib/ducalis/cops/protected_scope_cop.rb
-  - ./lib/ducalis/cops/regex_cop.rb
-  - ./lib/ducalis/cops/strings_in_activerecords.rb
-  - ./lib/ducalis/cops/rubocop_disable.rb
-  - ./lib/ducalis/cops/rest_only_cop.rb
-  - ./lib/ducalis/cops/uncommented_gem.rb
-  - ./lib/ducalis/cops/keyword_defaults.rb
-  - ./lib/ducalis/cops/params_passing.rb
-  - ./lib/ducalis/cops/private_instance_assign.rb
-  - ./lib/ducalis/cops/raise_withour_error_class.rb
-  - ./lib/ducalis/cops/module_like_class.rb
 
 Ducalis/CallbacksActiverecord:
   Enabled: true
