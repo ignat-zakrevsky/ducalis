@@ -24,12 +24,14 @@ Gem::Specification.new do |spec|
   end
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
+    f.match(%r{^(test|spec|features|Dockerfile)/})
   end
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
 
+  spec.add_dependency 'policial', '0.0.4'
   spec.add_dependency 'rubocop', '~> 0.50.0'
-  spec.add_dependency 'regexp-examples', '~> 1.3.2'
+  spec.add_dependency 'regexp-examples', '~> 1.3', '>= 1.3.2'
+  spec.add_dependency 'thor', '~> 0.20.0'
 
   spec.add_development_dependency 'bundler', '~> 1.16.a'
   spec.add_development_dependency 'rake', '~> 12.1'
