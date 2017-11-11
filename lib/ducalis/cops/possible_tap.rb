@@ -48,11 +48,13 @@ module Ducalis
 
     def return_var_call?(body)
       return unless body.children.last.respond_to?(:children)
-      subnodes(body.children.last).find { |node| ASSIGNS.include?(node.type) }
+      subnodes(body.children.last.to_a.first).find do |node|
+        ASSIGNS.include?(node.type)
+      end
     end
 
     def subnodes(node)
-      node.children.select { |child| child.respond_to?(:type) }
+      ([node] + node.children).select { |child| child.respond_to?(:type) }
     end
   end
 end

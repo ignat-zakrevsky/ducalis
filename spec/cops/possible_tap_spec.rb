@@ -99,6 +99,16 @@ RSpec.describe Ducalis::PossibleTap do
     expect(cop).to_not raise_violation
   end
 
+  it 'ignores calling methods on possible tap variable' do
+    inspect_source(cop, [
+                     'def create_message_struct(message)',
+                     '  objects = message.map { |object| process(object) }',
+                     '  Auditor::Message.new(message.process, objects)',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
+  end
+
   it 'ignores methods which simply returns instance var without changes' do
     inspect_source(cop, [
                      'def employee',
