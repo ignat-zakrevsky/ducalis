@@ -88,7 +88,7 @@ RSpec.describe Ducalis::PossibleTap do
 
   it 'ignores methods which return some statement' do
     inspect_source(cop, [
-                     '  def stop_terminated_employee',
+                     'def stop_terminated_employee',
                      '  if current_user && current_user.terminated?',
                      '    sign_out current_user',
                      '    redirect_to new_user_session_path',
@@ -99,7 +99,7 @@ RSpec.describe Ducalis::PossibleTap do
     expect(cop).to_not raise_violation
   end
 
-  it 'ignores calling methods on possible tap variable' do
+  it '[bugfix] calling methods on possible tap variable' do
     inspect_source(cop, [
                      'def create_message_struct(message)',
                      '  objects = message.map { |object| process(object) }',
@@ -109,7 +109,7 @@ RSpec.describe Ducalis::PossibleTap do
     expect(cop).to_not raise_violation
   end
 
-  it 'ignores methods which simply returns instance var without changes' do
+  it '[bugfix] methods which simply returns instance var without changes' do
     inspect_source(cop, [
                      'def employee',
                      '  @employee',
@@ -118,12 +118,23 @@ RSpec.describe Ducalis::PossibleTap do
     expect(cop).to_not raise_violation
   end
 
-  it 'ignores methods which ends with if condition' do
+  it '[bugfix] methods which ends with if condition' do
     inspect_source(cop, [
                      'def complete=(value, complete_at)',
                      '  value = value.to_b',
                      '  self.complete_at = complete_at if complete && value',
                      '  self.complete_at = nil unless value',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
+  end
+
+  it '[bugfix] methods with args without children nodes' do
+    inspect_source(cop, [
+                     'def filtered_admins(reducers)',
+                     '  reducers',
+                     '    .map { |reducer| @base_scope.public_send(reducer) }',
+                     '    .order("admin_users.created_at DESC")',
                      'end'
                    ])
     expect(cop).to_not raise_violation

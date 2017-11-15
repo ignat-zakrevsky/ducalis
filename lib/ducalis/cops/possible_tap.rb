@@ -55,6 +55,7 @@ module Ducalis
     end
 
     def subnodes(node)
+      return [] unless node.respond_to?(:children)
       ([node] + node.children).select { |child| child.respond_to?(:type) }
     end
 

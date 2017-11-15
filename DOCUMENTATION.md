@@ -481,7 +481,7 @@ end
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores methods which return some statement
 ```ruby
 
-  def stop_terminated_employee
+def stop_terminated_employee
   if current_user && current_user.terminated?
     sign_out current_user
     redirect_to new_user_session_path
@@ -491,7 +491,7 @@ end
 
 ```
 
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling methods on possible tap variable
+![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] calling methods on possible tap variable
 ```ruby
 
 def create_message_struct(message)
@@ -501,7 +501,7 @@ end
 
 ```
 
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores methods which simply returns instance var without changes
+![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods which simply returns instance var without changes
 ```ruby
 
 def employee
@@ -510,13 +510,24 @@ end
 
 ```
 
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores methods which ends with if condition
+![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods which ends with if condition
 ```ruby
 
 def complete=(value, complete_at)
   value = value.to_b
   self.complete_at = complete_at if complete && value
   self.complete_at = nil unless value
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods with args without children nodes
+```ruby
+
+def filtered_admins(reducers)
+  reducers
+    .map { |reducer| @base_scope.public_send(reducer) }
+    .order("admin_users.created_at DESC")
 end
 
 ```
