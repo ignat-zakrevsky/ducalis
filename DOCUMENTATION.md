@@ -490,47 +490,6 @@ end
 
 
 ```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] calling methods on possible tap variable
-```ruby
-
-def create_message_struct(message)
-  objects = message.map { |object| process(object) }
-  Auditor::Message.new(message.process, objects)
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods which simply returns instance var without changes
-```ruby
-
-def employee
-  @employee
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods which ends with if condition
-```ruby
-
-def complete=(value, complete_at)
-  value = value.to_b
-  self.complete_at = complete_at if complete && value
-  self.complete_at = nil unless value
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) [bugfix] methods with args without children nodes
-```ruby
-
-def filtered_admins(reducers)
-  reducers
-    .map { |reducer| @base_scope.public_send(reducer) }
-    .order("admin_users.created_at DESC")
-end
-
-```
 ## Ducalis::PreferableMethods
 
 Prefer to use %<alternative>s method instead of %<original>s because of

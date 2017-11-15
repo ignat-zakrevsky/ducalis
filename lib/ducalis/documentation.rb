@@ -60,6 +60,7 @@ class Documentation
   RED_SQUARE = '![](https://placehold.it/10/f03c15/000000?text=+)'
   GREEN_SQUARE = '![](https://placehold.it/10/2cbe4e/000000?text=+)'
   SIGNAL_WORD = 'raises'
+  IGNORE_WORDS = ['[bugfix]'].freeze
 
   def call
     Dir['./lib/ducalis/cops/*.rb'].sort.map do |f|
@@ -100,7 +101,12 @@ class Documentation
     )
     SpecsProcessor.new.tap do |processor|
       processor.process(Parser::CurrentRuby.parse(source_code))
-    end.cases
+    end.cases.reject(&method(:ignored?))
+  end
+
+  def ignored?(example)
+    desc, _code = example
+    IGNORE_WORDS.any? { |word| desc.include?(word) }
   end
 
   def klass_const_for(f)
