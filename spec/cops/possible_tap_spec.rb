@@ -117,4 +117,15 @@ RSpec.describe Ducalis::PossibleTap do
                    ])
     expect(cop).to_not raise_violation
   end
+
+  it 'ignores methods which ends with if condition' do
+    inspect_source(cop, [
+                     'def complete=(value, complete_at)',
+                     '  value = value.to_b',
+                     '  self.complete_at = complete_at if complete && value',
+                     '  self.complete_at = nil unless value',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
+  end
 end
