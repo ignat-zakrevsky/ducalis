@@ -62,7 +62,7 @@ class Documentation
   SIGNAL_WORD = 'raises'
 
   def call
-    Dir['./lib/ducalis/cops/*.rb'].map do |f|
+    Dir['./lib/ducalis/cops/*.rb'].sort.map do |f|
       present_cop(klass_const_for(f), spec_cases_for(f))
     end.flatten.join("\n")
   end
