@@ -31,6 +31,7 @@ require 'ducalis/patched_rubocop/git_runner'
 require 'ducalis/patched_rubocop/git_turget_finder'
 require 'ducalis/patched_rubocop/rubo_cop'
 
+require 'ducalis/cops/black_list_suffix'
 require 'ducalis/cops/callbacks_activerecord'
 require 'ducalis/cops/case_mapping'
 require 'ducalis/cops/controllers_except'

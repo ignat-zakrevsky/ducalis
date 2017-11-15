@@ -5,6 +5,20 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
 
+Ducalis/BlackListSuffix:
+  Enabled: true
+  BlackList:
+    - Sorter
+    - Manager
+    - Client
+    - Object
+    - Handler
+    - Processor
+    - Organizer
+    - Analyzer
+    - Renderer
+    - Loader
+
 Ducalis/PreferableMethods:
   Enabled: true
 

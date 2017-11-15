@@ -1,3 +1,35 @@
+## Ducalis::BlackListSuffix
+
+Please, avoid using of class suffixes like `Meneger`, `Client`
+ and so on. If it has no parts, change the name of the class to what
+ each object is managing. It's ok to use Manager as subclass of Person,
+ which is there to refine a type of personal that has management
+ behavior to it.
+ Related [article](<http://www.carlopescio.com/2011/04/your-coding-conventions-are-hurting-you.html>)
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on classes with suffixes from black list
+```ruby
+
+class ListSorter
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with okish suffixes
+```ruby
+
+class SortedList
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with full match
+```ruby
+
+class Manager
+end
+
+```
 ## Ducalis::CallbacksActiverecord
 
 Please, avoid using of callbacks for models. It's better to
