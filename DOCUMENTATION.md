@@ -564,9 +564,9 @@ tempfile.delete
 ```
 ## Ducalis::PrivateInstanceAssign
 
-Don't use filters for setting instance variables, use them only for
- changing application flow, such as redirecting if a user is not
- authenticated. Controller instance variables are forming contract
+Don't use controller's filter methods for setting instance variables, use
+ them only for changing application flow, such as redirecting if a user
+ is not authenticated. Controller instance variables are forming contract
  between controller and view. Keeping instance variables defined in one
  place makes it easier to: reason, refactor and remove old views, test
  controllers and views, extract actions to new controllers, etc.
