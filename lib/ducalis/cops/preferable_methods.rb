@@ -11,7 +11,7 @@ module Ducalis
     ALWAYS_TRUE = ->(_who, _what, _args) { true }
 
     DELETE_CHECK = lambda do |who, _what, args|
-      !%i(sym str).include?(args.first&.type) &&
+      !%i(sym str).include?(args.first && args.first.type) &&
         args.count <= 1 && who.to_s !~ /file/
     end
 
