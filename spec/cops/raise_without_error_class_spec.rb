@@ -11,6 +11,11 @@ RSpec.describe Ducalis::RaiseWithoutErrorClass do
     expect(cop).to raise_violation(/exception class/)
   end
 
+  it 'raises when `raise` called without arguments' do
+    inspect_source(cop, 'raise')
+    expect(cop).to raise_violation(/exception class/)
+  end
+
   it 'ignores when `raise` called with exception class' do
     inspect_source(cop, 'raise StandardError, "Something went wrong"')
     expect(cop).to_not raise_violation

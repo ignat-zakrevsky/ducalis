@@ -12,7 +12,7 @@ module Ducalis
     def on_send(node)
       _who, what, *args = *node
       return if what != :raise
-      return if args.first.type != :str
+      return if args.first && args.first.type != :str
       add_offense(node, :expression, OFFENSE)
     end
   end
