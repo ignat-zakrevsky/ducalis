@@ -626,7 +626,7 @@ MAPPING.find do |x|
 end
 
 ```
-## Ducalis::RaiseWithourErrorClass
+## Ducalis::RaiseWithoutErrorClass
 
 It's better to add exception class as raise argument. It will make
  easier to catch and process it later.

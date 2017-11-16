@@ -71,7 +71,7 @@ Ducalis/ControllersExcept:
 Ducalis/PrivateInstanceAssign:
   Enabled: true
 
-Ducalis/RaiseWithourErrorClass:
+Ducalis/RaiseWithoutErrorClass:
   Enabled: true
 
 Ducalis/ModuleLikeClass:

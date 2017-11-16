@@ -3,7 +3,7 @@
 require 'rubocop'
 
 module Ducalis
-  class RaiseWithourErrorClass < RuboCop::Cop::Cop
+  class RaiseWithoutErrorClass < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|/, '').strip
       | It's better to add exception class as raise argument. It will make
       | easier to catch and process it later.
