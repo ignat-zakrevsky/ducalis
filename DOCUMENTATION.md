@@ -699,7 +699,8 @@ puts "hi" if name =~ /.{#{name.length}}/
 ## Ducalis::RestOnlyCop
 
 It's better for controllers to stay adherent to REST:
- http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/
+ http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/.
+[About RESTful architecture](<https://confreaks.tv/videos/railsconf2017-in-relentless-pursuit-of-rest>)
 
 ![](https://placehold.it/10/f03c15/000000?text=+) raises for controllers with non-REST methods
 ```ruby

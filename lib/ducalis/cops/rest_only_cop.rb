@@ -7,7 +7,11 @@ module Ducalis
     include RuboCop::Cop::DefNode
     OFFENSE = <<-MESSAGE.gsub(/^ +\|/, '').strip
       | It's better for controllers to stay adherent to REST:
-      | http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/
+      | http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/.
+    MESSAGE
+
+    DETAILS = <<-MESSAGE.gsub(/^ +\|/, '').strip
+      | [About RESTful architecture](<https://confreaks.tv/videos/railsconf2017-in-relentless-pursuit-of-rest>)
     MESSAGE
 
     WHITELIST = %i(index show new edit create update destroy).freeze
