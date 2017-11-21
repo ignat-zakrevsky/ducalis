@@ -2,6 +2,7 @@ AllCops:
   DisabledByDefault: true
   TargetRubyVersion: 2.3
   Exclude:
+    - 'db/**/*'
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
 
@@ -33,6 +34,10 @@ Ducalis/PossibleTap:
 
 Ducalis/ProtectedScopeCop:
   Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'app/workers/**/*.rb'
+    - 'app/mailers/**/*.rb'
 
 Ducalis/RegexCop:
   Enabled: true
