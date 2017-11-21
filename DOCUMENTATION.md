@@ -395,7 +395,8 @@ end
 Consider of using `.tap`, default ruby
  [method](<https://apidock.com/ruby/Object/tap>)
  which allows to replace intermediate variables with block, by this you
- are limiting scope pollution and make scope more clear.
+ are limiting scope pollution and make method scope more clear. If it isn't
+ possible, consider of moving it to method or even inline it.
  [Related article](<http://seejohncode.com/2012/01/02/ruby-tap-that/>).
 
 ![](https://placehold.it/10/f03c15/000000?text=+) raises for methods with scope variable return
