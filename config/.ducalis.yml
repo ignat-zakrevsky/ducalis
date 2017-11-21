@@ -47,6 +47,10 @@ Ducalis/RegexCop:
 Ducalis/StringsInActiverecords:
   Enabled: true
 
+Ducalis/TooLongWorkers:
+  Enabled: true
+  Max: 25
+
 Ducalis/UselessOnly:
   Enabled: true
 

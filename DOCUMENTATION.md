@@ -636,6 +636,11 @@ It's better to add exception class as raise argument. It will make
 raise "Something went wrong"
 ```
 
+![](https://placehold.it/10/f03c15/000000?text=+) raises when `raise` called without arguments
+```ruby
+raise
+```
+
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores when `raise` called with exception class
 ```ruby
 raise StandardError, "Something went wrong"
@@ -779,6 +784,76 @@ before_save :set_full_name,
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores lambda if argument
 ```ruby
 validates :file, if: -> { remote_url.blank? }
+```
+## Ducalis::TooLongWorkers
+
+Seems like your worker is doing too much work, consider of moving business
+ logic to service object. As rule, workers should have only two responsibilities:
+ - __Model materialization__: As async jobs working with serialized attributes
+ it's nescessary to cast them into actual objects.
+ - __Errors handling__: Rescue errors and figure out what to do with them.
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises for a class with more than 5 lines
+```ruby
+class TestWorker
+  a = 1
+  a = 2
+  a = 3
+  a = 4
+  a = 5
+  a = 6
+end
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores non-worker classes
+```ruby
+class StrangeClass
+  a = 1
+  a = 2
+  a = 3
+  a = 4
+  a = 5
+  a = 6
+end
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) accepts a class with 5 lines
+```ruby
+class TestWorker
+  a = 1
+  a = 2
+  a = 3
+  a = 4
+  a = 5
+end
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) accepts a class with less than 5 lines
+```ruby
+class TestWorker
+  a = 1
+  a = 2
+  a = 3
+  a = 4
+end
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) accepts empty classes
+```ruby
+class TestWorker
+end
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) also counts commented lines
+```ruby
+class TestWorker
+  a = 1
+  #a = 2
+  a = 3
+  #a = 4
+  a = 5
+  a = 6
+end
 ```
 ## Ducalis::UncommentedGem
 
