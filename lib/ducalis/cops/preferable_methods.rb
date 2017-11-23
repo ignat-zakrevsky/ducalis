@@ -15,10 +15,22 @@ module Ducalis
         args.count <= 1 && who.to_s !~ /file/
     end
 
+    VALIDATE_CHECK = lambda do |_who, _what, args|
+      (args.first && args.first.source) =~ /validate/
+    end
+
     DESCRIPTION = {
       # Method => [Alternative, Reason, Callable condition]
+      toggle!: ['toggle.save', 'it is not invoking validations', ALWAYS_TRUE],
+      save: [:save, 'it is not invoking validations', VALIDATE_CHECK],
+      delete: [:destroy, 'it is not invoking callbacks', DELETE_CHECK],
       delete_all: [:destroy_all, 'it is not invoking callbacks', ALWAYS_TRUE],
-      delete: [:destroy, 'it is not invoking callbacks', DELETE_CHECK]
+      update_attribute: [:update, 'it is not invoking validation', ALWAYS_TRUE],
+      update_column: [:update, 'it is not invoking callbacks', ALWAYS_TRUE],
+      update_columns: [
+        :update, 'it is not invoking validations, callbacks and updated_at',
+        ALWAYS_TRUE
+      ]
     }.freeze
 
     DETAILS = "Dangerous methods are:

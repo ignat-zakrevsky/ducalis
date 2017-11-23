@@ -496,11 +496,31 @@ end
 Prefer to use %<alternative>s method instead of %<original>s because of
  %<reason>s.
 Dangerous methods are:
-`delete_all`, `delete`.
+`toggle!`, `save`, `delete`, `delete_all`, `update_attribute`, `update_column`, `update_columns`.
 
 ![](https://placehold.it/10/f03c15/000000?text=+) raises for `delete` method calling
 ```ruby
 User.where(id: 7).delete
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises `save` method calling with validate: false
+```ruby
+User.where(id: 7).save(validate: false)
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises `toggle!` method calling
+```ruby
+User.where(id: 7).toggle!
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `save` method calling without validate: false
+```ruby
+User.where(id: 7).save
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `save` method calling without validate: false
+```ruby
+User.where(id: 7).save(some_arg: true)
 ```
 
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with symbol

@@ -96,7 +96,7 @@ class Documentation
 
   def spec_cases_for(f)
     source_code = File.read(
-      f.sub('/lib/ducalis/', '/spec/')
+      f.sub('/lib/', '/spec/')
        .sub(/.rb$/, '_spec.rb')
     )
     SpecsProcessor.new.tap do |processor|

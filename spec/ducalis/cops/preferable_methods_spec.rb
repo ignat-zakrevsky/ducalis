@@ -11,6 +11,22 @@ RSpec.describe Ducalis::PreferableMethods do
     expect(cop).to raise_violation(/destroy/)
   end
 
+  it 'raises `save` method calling with validate: false' do
+    inspect_source(cop, 'User.where(id: 7).save(validate: false)')
+    expect(cop).to raise_violation(/save/)
+  end
+
+  it 'raises `toggle!` method calling' do
+    inspect_source(cop, 'User.where(id: 7).toggle!')
+    expect(cop).to raise_violation(/toggle.save/)
+  end
+
+  it 'ignores `save` method calling without validate: false' do
+    inspect_source(cop, 'User.where(id: 7).save')
+    inspect_source(cop, 'User.where(id: 7).save(some_arg: true)')
+    expect(cop).to_not raise_violation
+  end
+
   it 'ignores calling `delete` with symbol' do
     inspect_source(cop, 'params.delete(:code)')
     expect(cop).to_not raise_violation
