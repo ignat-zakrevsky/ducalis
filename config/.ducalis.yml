@@ -80,6 +80,9 @@ Ducalis/ControllersExcept:
 Ducalis/PrivateInstanceAssign:
   Enabled: true
 
+Ducalis/StandardMethods:
+  Enabled: true
+
 Ducalis/RaiseWithoutErrorClass:
   Enabled: true
 
