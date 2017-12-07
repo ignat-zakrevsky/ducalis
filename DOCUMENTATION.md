@@ -295,6 +295,58 @@ class TaskJournal
 end
 
 ```
+## Ducalis::OptionsArgument
+
+Default options argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
+
+Compare:
+
+```ruby
+def generate_1(document, options = {})
+  format = options.delete(:format)
+  limit = options.delete(:limit) || 20
+  # ...
+  [format, limit, options]
+end
+generate_1(1, format: 'csv', limit: 5, useless_arg: :value)
+
+# vs
+
+def generate_2(document, format:, limit: 20, **options)
+  # ...
+  [format, limit, options]
+end
+generate_2(1, format: 'csv', limit: 5, useless_arg: :value)
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts default options argument
+```ruby
+
+def generate(document, options = {})
+  format = options.delete(:format)
+  limit = options.delete(:limit) || 20
+  [format, limit, options]
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts options argument
+```ruby
+
+def log(record, options)
+  # ...
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing options with split operator
+```ruby
+
+def generate(document, format:, limit: 20, **options)
+  [format, limit, options]
+end
+
+```
 ## Ducalis::ParamsPassing
 
 It's better to pass already preprocessed params hash to services. Or you can use `arcane` gem.
@@ -747,6 +799,28 @@ def calculate(five, args, at, one, list); end
 
 # some meaningful comment
 def calculate(five, args, at, one, list); end
+
+```
+## Ducalis::StandardMethods
+
+Please, be sure that you really want to redefine standard ruby methods.
+You should know what are you doing and all consequences.
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if use redefines default ruby methods
+```ruby
+
+def to_s
+  "my version"
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores if use defines simple ruby methods
+```ruby
+
+def present
+  "my version"
+end
 
 ```
 ## Ducalis::StringsInActiverecords

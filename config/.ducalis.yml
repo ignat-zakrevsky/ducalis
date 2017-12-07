@@ -60,6 +60,9 @@ Ducalis/RestOnlyCop:
 Ducalis/KeywordDefaults:
   Enabled: true
 
+Ducalis/OptionsArgument:
+  Enabled: true
+
 Ducalis/RubocopDisable:
   Enabled: true
 
