@@ -929,6 +929,24 @@ gem 'rake', '~> 12.1'
 gem 'rspec', github: 'rspec/rspec' # new non released API
 
 ```
+## Ducalis::UnlockedGem
+
+It's better to lock gem versions explicitly with pessimistic operator (~>).
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises for gem without version
+```ruby
+gem 'pry'
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with locked versions
+```ruby
+
+gem 'pry', '~> 0.10', '>= 0.10.0'
+gem 'rake', '~> 12.1'
+gem 'thor', '= 0.20.0'
+gem 'rspec', github: 'rspec/rspec'
+
+```
 ## Ducalis::UselessOnly
 
 Seems like there is no any reason to keep before filter only for one action. Maybe it will be better to inline it?

@@ -89,6 +89,9 @@ Ducalis/StandardMethods:
 Ducalis/RaiseWithoutErrorClass:
   Enabled: true
 
+Ducalis/UnlockedGem:
+  Enabled: true
+
 Ducalis/ModuleLikeClass:
   Enabled: true
   AllowedIncludes:
