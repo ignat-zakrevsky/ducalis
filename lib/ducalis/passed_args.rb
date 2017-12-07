@@ -4,8 +4,10 @@ module Ducalis
   module PassedArgs
     module_function
 
+    RUBOCOP_FLAGS = %w[-D]
+
     def help_command?
-      ARGV.any? { |arg| Thor::HELP_MAPPINGS.include?(arg) }
+      ARGV.any? { |arg| (Thor::HELP_MAPPINGS - RUBOCOP_FLAGS).include?(arg) }
     end
 
     def ci_mode?
