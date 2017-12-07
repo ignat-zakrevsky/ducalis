@@ -4,7 +4,7 @@ module Ducalis
   module PassedArgs
     module_function
 
-    RUBOCOP_FLAGS = %w[-D]
+    RUBOCOP_FLAGS = %w(-D).freeze
 
     def help_command?
       ARGV.any? { |arg| (Thor::HELP_MAPPINGS - RUBOCOP_FLAGS).include?(arg) }

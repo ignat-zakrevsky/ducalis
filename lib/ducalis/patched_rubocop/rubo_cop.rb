@@ -8,6 +8,14 @@ module RuboCop
     end
   end
 
+  class CommentConfig
+    ::Ducalis::Utils.silence_warnings do
+      COMMENT_DIRECTIVE_REGEXP = Regexp.new(
+        ('# ducalis : ((?:dis|en)able)\b ' + COPS_PATTERN).gsub(' ', '\s*')
+      )
+    end
+  end
+
   class TargetFinder
     prepend PatchedRubocop::GitTurgetFinder
   end
