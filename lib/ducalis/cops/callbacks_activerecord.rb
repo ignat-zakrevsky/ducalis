@@ -18,8 +18,11 @@ module Ducalis
       after_commit
       after_create
       after_destroy
+      after_find
+      after_initialize
       after_rollback
       after_save
+      after_touch
       after_update
       after_validation
       around_create
