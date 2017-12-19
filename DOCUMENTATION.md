@@ -297,7 +297,7 @@ end
 ```
 ## Ducalis::OptionsArgument
 
-Default options argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
+Default `options` (or `args`) argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
 
 Compare:
 
@@ -308,7 +308,10 @@ def generate_1(document, options = {})
   # ...
   [format, limit, options]
 end
-generate_1(1, format: 'csv', limit: 5, useless_arg: :value)
+
+options = { format: 'csv', limit: 5, useless_arg: :value }
+generate_1(1, options) #=> ["csv", 5, {:useless_arg=>:value}]
+generate_1(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
 
 # vs
 
@@ -316,7 +319,11 @@ def generate_2(document, format:, limit: 20, **options)
   # ...
   [format, limit, options]
 end
-generate_2(1, format: 'csv', limit: 5, useless_arg: :value)
+
+options = { format: 'csv', limit: 5, useless_arg: :value }
+generate_2(1, **options) #=> ["csv", 5, {:useless_arg=>:value}]
+generate_2(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
+
 ```
 
 ![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts default options argument
@@ -334,6 +341,15 @@ end
 ```ruby
 
 def log(record, options)
+  # ...
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts args argument
+```ruby
+
+def log(record, args)
   # ...
 end
 

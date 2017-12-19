@@ -5,7 +5,7 @@ require 'rubocop'
 module Ducalis
   class OptionsArgument < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
-      | Default options argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
+      | Default `options` (or `args`) argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
 
       | Compare:
 
@@ -16,7 +16,10 @@ module Ducalis
       |   # ...
       |   [format, limit, options]
       | end
-      | generate_1(1, format: 'csv', limit: 5, useless_arg: :value)
+
+      | options = { format: 'csv', limit: 5, useless_arg: :value }
+      | generate_1(1, options) #=> ["csv", 5, {:useless_arg=>:value}]
+      | generate_1(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
 
       | # vs
 
@@ -24,9 +27,18 @@ module Ducalis
       |   # ...
       |   [format, limit, options]
       | end
-      | generate_2(1, format: 'csv', limit: 5, useless_arg: :value)
+
+      | options = { format: 'csv', limit: 5, useless_arg: :value }
+      | generate_2(1, **options) #=> ["csv", 5, {:useless_arg=>:value}]
+      | generate_2(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
+
       | ```
     MESSAGE
+
+    BLACK_LIST = %i(
+      options
+      args
+    ).freeze
 
     def on_def(node)
       _name, args, _body = *node
@@ -36,13 +48,17 @@ module Ducalis
 
     private
 
-    def_node_search :options_arg?, '(arg :options)'
-    def_node_search :options_arg_with_default?, '(optarg :options ...)'
+    def_node_search :options_arg?, '(arg #blacklisted?)'
+    def_node_search :options_arg_with_default?, '(optarg #blacklisted? ...)'
 
     def default_options?(args)
       args.children.any? do |node|
         options_arg?(node) || options_arg_with_default?(node)
       end
+    end
+
+    def blacklisted?(name)
+      BLACK_LIST.include?(name)
     end
   end
 end
