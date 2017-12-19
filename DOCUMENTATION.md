@@ -295,6 +295,56 @@ class TaskJournal
 end
 
 ```
+## Ducalis::OnlyDefsCope
+
+Prefer object instances to class methods because class methods resist refactoring. Begin with an object instance, even if it doesn’t have state or multiple methods right away. If you come back to change it later, you will be more likely to refactor. If it never changes, the difference between the class method approach and the instance is negligible, and you certainly won’t be any worse off.
+Related article: https://codeclimate.com/blog/why-ruby-class-methods-resist-refactoring/
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with one instance method
+```ruby
+
+class TaskJournal
+  def initialize(task)
+    # ...
+  end
+
+  def call(args)
+    # ...
+  end
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with mixed methods
+```ruby
+
+class TaskJournal
+  def self.find(task)
+    # ...
+  end
+
+  def call(args)
+    # ...
+  end
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises error for class with ONLY class methods
+```ruby
+
+class TaskJournal
+
+  def self.call(task)
+    # ...
+  end
+
+  def self.find(args)
+    # ...
+  end
+end
+
+```
 ## Ducalis::OptionsArgument
 
 Default `options` (or `args`) argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
