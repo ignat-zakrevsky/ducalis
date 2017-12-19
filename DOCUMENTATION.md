@@ -295,7 +295,7 @@ class TaskJournal
 end
 
 ```
-## Ducalis::OnlyDefsCope
+## Ducalis::OnlyDefs
 
 Prefer object instances to class methods because class methods resist refactoring. Begin with an object instance, even if it doesn’t have state or multiple methods right away. If you come back to change it later, you will be more likely to refactor. If it never changes, the difference between the class method approach and the instance is negligible, and you certainly won’t be any worse off.
 Related article: https://codeclimate.com/blog/why-ruby-class-methods-resist-refactoring/
@@ -340,6 +340,40 @@ class TaskJournal
   end
 
   def self.find(args)
+    # ...
+  end
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises error for class with ONLY class << self
+```ruby
+
+class TaskJournal
+  class << self
+    def call(task)
+      # ...
+    end
+
+    def find(args)
+      # ...
+    end
+  end
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores instance methods mixed with ONLY class << self
+```ruby
+
+class TaskJournal
+  class << self
+    def call(task)
+      # ...
+    end
+  end
+
+  def find(args)
     # ...
   end
 end

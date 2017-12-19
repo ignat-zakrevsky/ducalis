@@ -3,7 +3,7 @@
 require 'rubocop'
 
 module Ducalis
-  class OnlyDefsCope < RuboCop::Cop::Cop
+  class OnlyDefs < RuboCop::Cop::Cop
     include RuboCop::Cop::DefNode
 
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
@@ -17,14 +17,21 @@ module Ducalis
     def on_class(node)
       _name, inheritance, body = *node
       return if !inheritance.nil? || body.nil?
-      instance_methods = children(body).select(&public_method_definition?)
-      class_methods    = children(body).select(&class_method_definition?)
-
-      return unless instance_methods.empty? && class_methods.any?
+      return unless !instance_methods_definitions?(body) &&
+                    class_methods_defintions?(body)
       add_offense(node, :expression, OFFENSE)
     end
 
     private
+
+    def instance_methods_definitions?(body)
+      children(body).any?(&public_method_definition?)
+    end
+
+    def class_methods_defintions?(body)
+      children(body).any?(&class_method_definition?) ||
+        children(body).any?(&method(:self_class_defs?))
+    end
 
     def public_method_definition?
       lambda do |node|
@@ -43,5 +50,6 @@ module Ducalis
     end
 
     def_node_search :initialize?, '(def :initialize ...)'
+    def_node_search :self_class_defs?, '  (sclass (self) (begin ...))'
   end
 end

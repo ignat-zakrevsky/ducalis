@@ -51,7 +51,7 @@ Ducalis/TooLongWorkers:
   Enabled: true
   Max: 25
 
-Ducalis/OnlyDefsCope:
+Ducalis/OnlyDefs:
   Enabled: true
 
 Ducalis/UselessOnly:
