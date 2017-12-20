@@ -16,6 +16,16 @@ RSpec.describe Ducalis::ProtectedScopeCop do
     expect(cop).to raise_violation(/non-protected scope/)
   end
 
+  it 'raises if AR search was called with find_by id' do
+    inspect_source(cop, 'Group.includes(:profiles).find_by(id: 8)')
+    expect(cop).to raise_violation(/non-protected scope/)
+  end
+
+  it 'raises if AR search was called on unnamespaced constant' do
+    inspect_source(cop, '::Group.find(8)')
+    expect(cop).to raise_violation(/non-protected scope/)
+  end
+
   it 'ignores where statements and still raises error' do
     inspect_source(cop,
                    'Group.includes(:profiles).where(name: "John").find(8)')

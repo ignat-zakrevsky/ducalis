@@ -16,23 +16,14 @@ module Ducalis
     MESSAGE
 
     def on_send(node)
-      _, method_name, *args = *node
-      return unless method_name == :find
-      return if args.empty?
-      return unless children(node).any? { |subnode| subnode.type == :const }
+      return unless [find_method?(node), find_by_id?(node)].any?
+      return unless const_like?(node)
       add_offense(node, :expression, OFFENSE)
     end
 
-    private
-
-    def children(node)
-      current_nodes = [node]
-      while current_nodes.any? { |subnode| subnode.child_nodes.count != 0 }
-        current_nodes = current_nodes.flat_map do |subnode|
-          subnode.child_nodes.count.zero? ? subnode : subnode.child_nodes
-        end
-      end
-      current_nodes
-    end
+    def_node_search :const_like?, '(const ...)'
+    def_node_search :find_method?, '(send (...) :find (...))'
+    def_node_search :find_by_id?,
+                    '(send (...) :find_by (:hash (:pair (:sym :id) (...))))'
   end
 end
