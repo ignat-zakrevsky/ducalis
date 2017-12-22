@@ -15,13 +15,12 @@ Env `GITHUB_TOKEN` should be available to receive PRs files."
   puts '    --all   [default] check all files in RuboCop style.'
   puts ''
 
-  Ducalis::CLI.start(ARGV)
-  RuboCop::CLI.new.run
+  Ducalis::CLI.new(ARGV).start
   exit 0
 end
 
 if Ducalis::PassedArgs.ci_mode?
-  Ducalis::CLI.start(ARGV - %w(--ci))
+  Ducalis::CLI.new(ARGV - %w(--ci)).start
 else
   Ducalis::PassedArgs.process_args!
 

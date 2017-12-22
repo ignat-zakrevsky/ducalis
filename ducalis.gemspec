@@ -32,5 +32,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'policial', '0.0.4'
   spec.add_dependency 'regexp-examples', '~> 1.3', '>= 1.3.2'
   spec.add_dependency 'rubocop', '>= 0.45.0', '~> 0.46.0'
-  spec.add_dependency 'thor', '~> 0.20.0'
 end
