@@ -19,15 +19,44 @@ module Ducalis
     end
 
     DESCRIPTION = {
-      # Method => [Alternative, Reason, Callable condition]
-      toggle!: ['toggle.save', 'it is not invoking validations', ALWAYS_TRUE],
-      save: [:save, 'it is not invoking validations', VALIDATE_CHECK],
-      delete: [:destroy, 'it is not invoking callbacks', DELETE_CHECK],
-      delete_all: [:destroy_all, 'it is not invoking callbacks', ALWAYS_TRUE],
-      update_attribute: [:update, 'it is not invoking validation', ALWAYS_TRUE],
-      update_column: [:update, 'it is not invoking callbacks', ALWAYS_TRUE],
+      # Method => [
+      #   Alternative,
+      #   Reason,
+      #   Callable condition
+      # ]
+      toggle!: [
+        '`toggle.save`',
+        'it is not invoking validations',
+        ALWAYS_TRUE
+      ],
+      save: [
+        '`save`',
+        'it is not invoking validations',
+        VALIDATE_CHECK
+      ],
+      delete: [
+        '`destroy`',
+        'it is not invoking callbacks',
+        DELETE_CHECK
+      ],
+      delete_all: [
+        '`destroy_all`',
+        'it is not invoking callbacks',
+        ALWAYS_TRUE
+      ],
+      update_attribute: [
+        '`update` (`update_attributes` for Rails versions < 4)',
+        'it is not invoking validations',
+        ALWAYS_TRUE
+      ],
+      update_column: [
+        '`update` (`update_attributes` for Rails versions < 4)',
+        'it is not invoking callbacks',
+        ALWAYS_TRUE
+      ],
       update_columns: [
-        :update, 'it is not invoking validations, callbacks and updated_at',
+        '`update` (`update_attributes` for Rails versions < 4)',
+        'it is not invoking validations, callbacks and updated_at',
         ALWAYS_TRUE
       ]
     }.freeze

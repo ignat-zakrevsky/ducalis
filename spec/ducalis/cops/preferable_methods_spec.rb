@@ -16,6 +16,12 @@ RSpec.describe Ducalis::PreferableMethods do
     expect(cop).to raise_violation(/save/)
   end
 
+  it 'raises `update_column` method calling' do
+    inspect_source(cop, 'User.where(id: 7).update_column(admin: false)')
+    expect(cop).to raise_violation(/update/)
+    expect(cop).to raise_violation(/update_attributes/)
+  end
+
   it 'raises `toggle!` method calling' do
     inspect_source(cop, 'User.where(id: 7).toggle!')
     expect(cop).to raise_violation(/toggle.save/)

@@ -630,6 +630,11 @@ User.where(id: 7).delete
 User.where(id: 7).save(validate: false)
 ```
 
+![](https://placehold.it/10/f03c15/000000?text=+) raises `update_column` method calling
+```ruby
+User.where(id: 7).update_column(admin: false)
+```
+
 ![](https://placehold.it/10/f03c15/000000?text=+) raises `toggle!` method calling
 ```ruby
 User.where(id: 7).toggle!
@@ -743,6 +748,16 @@ Group.find(8)
 ![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called even for chain of calls
 ```ruby
 Group.includes(:profiles).find(8)
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called with find_by id
+```ruby
+Group.includes(:profiles).find_by(id: 8)
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called on unnamespaced constant
+```ruby
+::Group.find(8)
 ```
 
 ![](https://placehold.it/10/f03c15/000000?text=+) ignores where statements and still raises error
