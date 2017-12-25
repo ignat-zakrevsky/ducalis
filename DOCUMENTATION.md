@@ -268,6 +268,28 @@ class ProductsController < ApplicationController
 end
 
 ```
+## Ducalis::FetchExpression
+
+You can use `fetch` instead:
+
+```ruby
+%<source>s
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on using [] with default
+```ruby
+params[:to] || destination
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on using ternary operator with default
+```ruby
+params[:to] ? params[:to] : destination
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on using ternary operator with nil?
+```ruby
+params[:to].nil? ? destination : params[:to]
+```
 ## Ducalis::KeywordDefaults
 
 Prefer to use keyword arguments for defaults. It increases readability and reduces ambiguities.

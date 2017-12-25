@@ -35,6 +35,9 @@ Ducalis/DataAccessObjects:
 Ducalis/PossibleTap:
   Enabled: false
 
+Ducalis/FetchExpression:
+  Enabled: true
+
 Ducalis/ProtectedScopeCop:
   Enabled: true
   Exclude:
