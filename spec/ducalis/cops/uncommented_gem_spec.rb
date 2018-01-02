@@ -24,4 +24,32 @@ RSpec.describe Ducalis::UncommentedGem do
                    ])
     expect(cop).to_not raise_violation
   end
+
+  it 'ignores gems with require directive' do
+    inspect_source(cop,
+                   [
+                     "gem 'pry', '~> 0.10', '>= 0.10.0'",
+                     "gem 'rake', '~> 12.1'",
+                     "gem 'rest-client', require: 'rest_client'"
+                   ])
+    expect(cop).to_not raise_violation
+  end
+
+  it 'ignores gems with group directive' do
+    inspect_source(cop,
+                   [
+                     "gem 'rake', '~> 12.1'",
+                     "gem 'wirble', group: :development"
+                   ])
+    expect(cop).to_not raise_violation
+  end
+
+  it 'ignores gems with group directive and old syntax style' do
+    inspect_source(cop,
+                   [
+                     "gem 'rake', '~> 12.1'",
+                     "gem 'wirble', :group => :development"
+                   ])
+    expect(cop).to_not raise_violation
+  end
 end
