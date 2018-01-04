@@ -35,30 +35,11 @@ module Ducalis
       | ```
     MESSAGE
 
-    BLACK_LIST = %i(
-      options
-      args
-    ).freeze
-
     def on_def(node)
-      _name, args, _body = *node
-      return unless default_options?(args)
+      return unless options_like_arg?(node)
       add_offense(node, :expression, OFFENSE)
     end
 
-    private
-
-    def_node_search :options_arg?, '(arg #blacklisted?)'
-    def_node_search :options_arg_with_default?, '(optarg #blacklisted? ...)'
-
-    def default_options?(args)
-      args.children.any? do |node|
-        options_arg?(node) || options_arg_with_default?(node)
-      end
-    end
-
-    def blacklisted?(name)
-      BLACK_LIST.include?(name)
-    end
+    def_node_search :options_like_arg?, '(${arg optarg}  ${:options :args} ...)'
   end
 end
