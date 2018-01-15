@@ -5,6 +5,7 @@ require 'rubocop'
 module Ducalis
   class ModuleLikeClass < RuboCop::Cop::Cop
     include RuboCop::Cop::DefNode
+
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Seems like it will be better to define initialize and pass %<args>s there instead of each method.
     MESSAGE

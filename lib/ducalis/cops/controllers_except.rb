@@ -11,12 +11,6 @@ module Ducalis
     FILTERS = %i(before_filter after_filter around_filter
                  before_action after_action around_action).freeze
 
-    def on_class(node)
-      _classdef_node, superclass, _body = *node
-      return if superclass.nil?
-      @triggered = superclass.loc.expression.source =~ /Controller/
-    end
-
     def on_send(node)
       _, method_name, *args = *node
       hash_node = args.find { |subnode| subnode.type == :hash }
@@ -31,7 +25,5 @@ module Ducalis
     def decomposite_hash(args)
       args.to_a.first.children.to_a
     end
-
-    attr_reader :triggered
   end
 end
