@@ -177,6 +177,97 @@ class ProductsController < ApplicationController
 end
 
 ```
+## Ducalis::DataAccessObjects
+
+It's a good practice to move code related to serialization/deserialization out of the controller. Consider of creating Data Access Object to separate the data access parts from the application logic. It will eliminate problems related to refactoring and testing.
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `session` object
+```ruby
+
+class ProductsController < ApplicationController
+  def edit
+    session[:start_time] = Time.now
+  end
+
+  def update
+    @time = Date.parse(session[:start_time]) - Time.now
+  end
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `cookies` object
+```ruby
+
+class HomeController < ApplicationController
+  def set_cookies
+    cookies[:user_name] = "Horst Meier"
+    cookies[:customer_number] = "1234567890"
+  end
+
+  def show_cookies
+    @user_name = cookies[:user_name]
+    @customer_number = cookies[:customer_number]
+  end
+
+  def delete_cookies
+    cookies.delete :user_name
+    cookies.delete :customer_number
+  end
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on working with global `$redis` object
+```ruby
+
+class ProductsController < ApplicationController
+  def update
+    $redis.incr("current_hits")
+  end
+
+  def show
+    $redis.get("current_hits").to_i
+  end
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `Redis.current` object
+```ruby
+
+class ProductsController < ApplicationController
+  def update
+    Redis.current.incr("current_hits")
+  end
+
+  def show
+    Redis.current.get("current_hits").to_i
+  end
+end
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing DAO-like objects to services
+```ruby
+
+class ProductsController < ApplicationController
+  def update
+    current_hits.increment
+  end
+
+  def show
+    current_hits.count
+  end
+
+  private
+
+  def current_hits
+    @_current_hits ||= CurrentHits.new(Redis.current)
+  end
+end
+
+```
 ## Ducalis::KeywordDefaults
 
 Prefer to use keyword arguments for defaults. It increases readability and reduces ambiguities.
@@ -1042,6 +1133,31 @@ gem 'rspec', git: 'https://github.com/rspec/rspec'
 gem 'pry', '~> 0.10', '>= 0.10.0'
 gem 'rake', '~> 12.1'
 gem 'rspec', github: 'rspec/rspec' # new non released API
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with require directive
+```ruby
+
+gem 'pry', '~> 0.10', '>= 0.10.0'
+gem 'rake', '~> 12.1'
+gem 'rest-client', require: 'rest_client'
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with group directive
+```ruby
+
+gem 'rake', '~> 12.1'
+gem 'wirble', group: :development
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with group directive and old syntax style
+```ruby
+
+gem 'rake', '~> 12.1'
+gem 'wirble', :group => :development
 
 ```
 ## Ducalis::UnlockedGem

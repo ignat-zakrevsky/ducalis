@@ -19,9 +19,9 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
-RSpec::Matchers.define :raise_violation do |like|
+RSpec::Matchers.define :raise_violation do |like, count: 1|
   match do |cop|
-    cop.offenses.size == 1 && cop.offenses.first.message.match(like)
+    cop.offenses.size == count && cop.offenses.first.message.match(like)
   end
 
   match_when_negated do |cop|
