@@ -386,6 +386,60 @@ class TaskJournal
 end
 
 ```
+## Ducalis::MultipleTimes
+
+You should avoid multiple time-related calls to prevent bugs during the period junctions (like Time.now.day called twice in the same scope could return different values if you called it near 23:59:59). You can pass it as default keyword argument or assign to a local variable.
+Compare:
+
+```ruby
+def period
+  Date.today..(Date.today + 1.day)
+end
+# vs
+def period(today: Date.today)
+  today..(today + 1.day)
+end
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains more then one Time.current calling
+```ruby
+
+def initialize(plan)
+  @year = plan[:year] || Date.current.year
+  @quarter = plan[:quarter] || quarter(Date.current)
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains mix of different time-related calls
+```ruby
+
+def initialize(plan)
+  @hour = plan[:hour] || Time.current.hour
+  @quarter = plan[:quarter] || quarter(Date.current)
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains more then one Date.today calling
+```ruby
+
+def range_to_change
+  [Date.today - RATE_CHANGES_DAYS,
+   Date.today + RATE_CHANGES_DAYS]
+end
+
+```
+
+![](https://placehold.it/10/f03c15/000000?text=+) raises if block contains more then one Date.today calling
+```ruby
+
+validates :year,
+  inclusion: {
+    in: Date.current.year - 1..Date.current.year + 2
+  }
+
+```
 ## Ducalis::OnlyDefs
 
 Prefer object instances to class methods because class methods resist refactoring. Begin with an object instance, even if it doesn’t have state or multiple methods right away. If you come back to change it later, you will be more likely to refactor. If it never changes, the difference between the class method approach and the instance is negligible, and you certainly won’t be any worse off.

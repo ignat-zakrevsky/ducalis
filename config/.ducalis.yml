@@ -66,6 +66,9 @@ Ducalis/RestOnlyCop:
 Ducalis/KeywordDefaults:
   Enabled: true
 
+Ducalis/MultipleTimes:
+  Enabled: true
+
 Ducalis/OptionsArgument:
   Enabled: true
 
