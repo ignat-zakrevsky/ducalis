@@ -6,7 +6,7 @@ require './lib/ducalis/cops/keyword_defaults'
 RSpec.describe Ducalis::KeywordDefaults do
   subject(:cop) { described_class.new }
 
-  it 'raises if method definition contains default values' do
+  it '[rule] raises if method definition contains default values' do
     inspect_source(cop, 'def calculate(step, index, dry = true); end')
     expect(cop).to raise_violation(/keyword arguments/)
   end

@@ -6,7 +6,7 @@ require './lib/ducalis/cops/params_passing'
 RSpec.describe Ducalis::ParamsPassing do
   subject(:cop) { described_class.new }
 
-  it 'raises if user pass `params` as argument from controller' do
+  it '[rule] raises if user pass `params` as argument from controller' do
     inspect_source(cop, [
                      'class ProductsController < ApplicationController',
                      '  def index',

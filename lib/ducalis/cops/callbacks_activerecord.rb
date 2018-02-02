@@ -9,6 +9,9 @@ module Ducalis
 
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Please, avoid using of callbacks for models. It's better to keep models small ("dumb") and instead use "builder" classes/services: to construct new objects.
+    MESSAGE
+
+    DETAILS = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | You can read more [here](https://medium.com/planet-arkency/a61fd75ab2d3).
     MESSAGE
 

@@ -8,7 +8,7 @@ RSpec.describe Ducalis::BlackListSuffix do
   let(:cop_config) { { 'BlackList' => ['Sorter'] } }
   before { allow(cop).to receive(:cop_config).and_return(cop_config) }
 
-  it 'raises on classes with suffixes from black list' do
+  it '[rule] raises on classes with suffixes from black list' do
     inspect_source(cop, [
                      'class ListSorter',
                      'end'

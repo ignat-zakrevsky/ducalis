@@ -6,7 +6,7 @@ require './lib/ducalis/cops/rest_only_cop.rb'
 RSpec.describe Ducalis::RestOnlyCop do
   subject(:cop) { described_class.new }
 
-  it 'raises for controllers with non-REST methods' do
+  it '[rule] raises for controllers with non-REST methods' do
     inspect_source(cop, [
                      'class ProductsController < ApplicationController',
                      '  def index; end',

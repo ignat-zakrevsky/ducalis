@@ -6,7 +6,7 @@ require './lib/ducalis/cops/options_argument'
 RSpec.describe Ducalis::OptionsArgument do
   subject(:cop) { described_class.new }
 
-  it 'raises if method accepts default options argument' do
+  it '[rule] raises if method accepts default options argument' do
     inspect_source(cop, [
                      'def generate(document, options = {})',
                      '  format = options.delete(:format)',
@@ -17,7 +17,7 @@ RSpec.describe Ducalis::OptionsArgument do
     expect(cop).to raise_violation(/keyword arguments/)
   end
 
-  it 'raises if method accepts options argument' do
+  it '[rule] raises if method accepts options argument' do
     inspect_source(cop, [
                      'def log(record, options)',
                      '  # ...',

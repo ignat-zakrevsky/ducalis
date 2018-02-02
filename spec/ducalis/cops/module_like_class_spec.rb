@@ -7,7 +7,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
   subject(:cop) { described_class.new }
   let(:cop_config) { { 'AllowedIncludes' => ['Singleton'] } }
 
-  it 'raises if class doesn\'t contain constructor but accept the same args' do
+  it '[rule] raises for class without constructor but accepts the same args' do
     inspect_source(cop, [
                      'class TaskJournal',
                      '  def initialize(customer)',
@@ -32,7 +32,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
     expect(cop).to raise_violation(/pass `task`, `estimate`/)
   end
 
-  it 'raises for class with only one public method with args' do
+  it '[rule] raises for class with only one public method with args' do
     inspect_source(cop, [
                      'class TaskJournal',
                      '  def approve(task)',

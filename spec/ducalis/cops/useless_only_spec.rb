@@ -6,7 +6,7 @@ require './lib/ducalis/cops/useless_only.rb'
 RSpec.describe Ducalis::UselessOnly do
   subject(:cop) { described_class.new }
 
-  it 'raises for `before_filters` with only one method as array' do
+  it '[rule] raises for `before_filters` with only one method' do
     inspect_source(cop, [
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, only: [:index]',

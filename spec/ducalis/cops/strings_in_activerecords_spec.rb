@@ -6,7 +6,7 @@ require './lib/ducalis/cops/strings_in_activerecords'
 RSpec.describe Ducalis::StringsInActiverecords do
   subject(:cop) { described_class.new }
 
-  it 'raises for string if argument' do
+  it '[rule] raises for string if argument' do
     inspect_source(cop, [
                      'before_save :set_full_name, ',
                      " if: 'name_changed? || postfix_name_changed?'"

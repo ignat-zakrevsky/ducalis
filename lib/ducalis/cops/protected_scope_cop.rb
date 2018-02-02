@@ -6,6 +6,9 @@ module Ducalis
   class ProtectedScopeCop < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Seems like you are using `find` on non-protected scope. Potentially it could lead to unauthorized access. It's better to call `find` on authorized resources scopes.
+    MESSAGE
+
+    DETAILS = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Example:
 
       | ```ruby

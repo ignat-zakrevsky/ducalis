@@ -6,7 +6,7 @@ require './lib/ducalis/cops/data_access_objects'
 RSpec.describe Ducalis::DataAccessObjects do
   subject(:cop) { described_class.new }
 
-  it 'raises on working with `session` object' do
+  it '[rule] raises on working with `session` object' do
     inspect_source(cop, [
                      'class ProductsController < ApplicationController',
                      '  def edit',

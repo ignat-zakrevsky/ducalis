@@ -27,16 +27,24 @@ class SpecsProcessor < Parser::AST::Processor
 
   def on_send(node)
     _, name, _body = *node
-    if name == :inspect_source
-      source_code = remove_array_wrapping(node.to_a.last.loc.expression.source)
-                    .split("\n")
-                    .map { |line| remove_string_wrapping(line) }
-      cases << [current_it, source_code]
-    end
+    cases << [current_it, source_code(node)] if name == :inspect_source
     super
   end
 
   private
+
+  def source_code(node)
+    prepare_code(node).tap do |code|
+      code.shift if code.first.empty?
+      code.pop if code.last.empty?
+    end
+  end
+
+  def prepare_code(node)
+    remove_array_wrapping(node.to_a.last.loc.expression.source)
+      .split("\n")
+      .map { |line| remove_string_wrapping(line) }
+  end
 
   def current_it
     it_block = @nesting.reverse.find { |node| node.type == :block }
@@ -57,10 +65,8 @@ class SpecsProcessor < Parser::AST::Processor
 end
 
 class Documentation
-  RED_SQUARE = '![](https://placehold.it/10/f03c15/000000?text=+)'
-  GREEN_SQUARE = '![](https://placehold.it/10/2cbe4e/000000?text=+)'
   SIGNAL_WORD = 'raises'
-  IGNORE_WORDS = ['[bugfix]'].freeze
+  RULE_WORD = '[rule]'
 
   def call
     Dir['./lib/ducalis/cops/*.rb'].sort.map do |f|
@@ -77,14 +83,18 @@ class Documentation
     ] +
       specs.map do |(it, code)|
         [
-          "\n#{color(it)} #{it}",                       # case description
-          "```ruby\n#{code.join("\n")}\n```"            # code example
+          prepare(it).to_s,                                  # case description
+          "```ruby\n#{mention(it)}\n#{code.join("\n")}\n```" # code example
         ]
       end
   end
 
-  def color(it)
-    it.include?(SIGNAL_WORD) ? RED_SQUARE : GREEN_SQUARE
+  def prepare(it)
+    it.sub("#{RULE_WORD} ", '')
+  end
+
+  def mention(it)
+    it.include?(SIGNAL_WORD) ? '# bad' : '# good'
   end
 
   def message(klass)
@@ -101,12 +111,12 @@ class Documentation
     )
     SpecsProcessor.new.tap do |processor|
       processor.process(Parser::CurrentRuby.parse(source_code))
-    end.cases.reject(&method(:ignored?))
+    end.cases.select(&method(:allowed?))
   end
 
-  def ignored?(example)
+  def allowed?(example)
     desc, _code = example
-    IGNORE_WORDS.any? { |word| desc.include?(word) }
+    desc.include?(RULE_WORD)
   end
 
   def klass_const_for(f)

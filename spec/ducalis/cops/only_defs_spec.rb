@@ -36,7 +36,7 @@ RSpec.describe Ducalis::OnlyDefs do
     expect(cop).to_not raise_violation
   end
 
-  it 'raises error for class with ONLY class methods' do
+  it '[rule] raises error for class with ONLY class methods' do
     inspect_source(cop, [
                      'class TaskJournal',
                      '',

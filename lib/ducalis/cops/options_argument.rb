@@ -6,7 +6,9 @@ module Ducalis
   class OptionsArgument < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Default `options` (or `args`) argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
+    MESSAGE
 
+    DETAILS = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | Compare:
 
       | ```ruby

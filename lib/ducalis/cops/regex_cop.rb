@@ -10,6 +10,8 @@ module Ducalis
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | It's better to move regex to constants with example instead of direct using it. It will allow you to reuse this regex and provide instructions for others.
 
+      | Example:
+
       | ```ruby
       | CONST_NAME = %<constant>s # "%<example>s"
       | %<fixed_string>s

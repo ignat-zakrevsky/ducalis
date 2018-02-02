@@ -6,7 +6,7 @@ require './lib/ducalis/cops/standard_methods'
 RSpec.describe Ducalis::StandardMethods do
   subject(:cop) { described_class.new }
 
-  it 'raises if use redefines default ruby methods' do
+  it '[rule] raises if use redefines default ruby methods' do
     inspect_source(cop, [
                      'def to_s',
                      '  "my version"',

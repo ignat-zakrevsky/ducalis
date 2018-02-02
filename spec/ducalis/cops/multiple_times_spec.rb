@@ -6,7 +6,7 @@ require './lib/ducalis/cops/multiple_times'
 RSpec.describe Ducalis::MultipleTimes do
   subject(:cop) { described_class.new }
 
-  it 'raises if method contains more then one Time.current calling' do
+  it '[rule] raises if method contains more then one Time.current calling' do
     inspect_source(cop, [
                      'def initialize(plan)',
                      '  @year = plan[:year] || Date.current.year',

@@ -5,12 +5,12 @@ require './lib/ducalis/cops/fetch_expression'
 RSpec.describe Ducalis::FetchExpression do
   subject(:cop) { described_class.new }
 
-  it 'raises on using [] with default' do
+  it '[rule] raises on using [] with default' do
     inspect_source(cop, 'params[:to] || destination')
     expect(cop).to raise_violation(/fetch/)
   end
 
-  it 'raises on using ternary operator with default' do
+  it '[rule] raises on using ternary operator with default' do
     inspect_source(cop, 'params[:to] ? params[:to] : destination')
     expect(cop).to raise_violation(/fetch/)
   end

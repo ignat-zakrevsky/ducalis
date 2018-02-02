@@ -6,17 +6,17 @@ require './lib/ducalis/cops/preferable_methods.rb'
 RSpec.describe Ducalis::PreferableMethods do
   subject(:cop) { described_class.new }
 
-  it 'raises for `delete` method calling' do
+  it '[rule] raises for `delete` method calling' do
     inspect_source(cop, 'User.where(id: 7).delete')
     expect(cop).to raise_violation(/destroy/)
   end
 
-  it 'raises `save` method calling with validate: false' do
+  it '[rule] raises `save` method calling with validate: false' do
     inspect_source(cop, 'User.where(id: 7).save(validate: false)')
     expect(cop).to raise_violation(/save/)
   end
 
-  it 'raises `update_column` method calling' do
+  it '[rule] raises `update_column` method calling' do
     inspect_source(cop, 'User.where(id: 7).update_column(admin: false)')
     expect(cop).to raise_violation(/update/)
     expect(cop).to raise_violation(/update_attributes/)

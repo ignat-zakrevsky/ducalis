@@ -6,7 +6,7 @@ require './lib/ducalis/cops/protected_scope_cop'
 RSpec.describe Ducalis::ProtectedScopeCop do
   subject(:cop) { described_class.new }
 
-  it 'raises if somewhere AR search was called on not protected scope' do
+  it '[rule] raises if somewhere AR search was called on not protected scope' do
     inspect_source(cop, 'Group.find(8)')
     expect(cop).to raise_violation(/non-protected scope/)
   end

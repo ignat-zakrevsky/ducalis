@@ -8,7 +8,7 @@ RSpec.describe Ducalis::TooLongWorkers do
   let(:cop_config) { { 'Max' => 5, 'CountComments' => false } }
   before { allow(cop).to receive(:cop_config).and_return(cop_config) }
 
-  it 'raises for a class with more than 5 lines' do
+  it '[rule] raises for a class with more than 5 lines' do
     inspect_source(cop, ['class TestWorker',
                          '  a = 1',
                          '  a = 2',

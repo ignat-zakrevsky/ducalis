@@ -6,7 +6,7 @@ require './lib/ducalis/cops/controllers_except.rb'
 RSpec.describe Ducalis::ControllersExcept do
   subject(:cop) { described_class.new }
 
-  it 'raises for `before_filters` with `except` method as array' do
+  it '[rule] raises for `before_filters` with `except` method as array' do
     inspect_source(cop, [
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, except: [:index]',

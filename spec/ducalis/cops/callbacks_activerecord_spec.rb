@@ -6,7 +6,7 @@ require './lib/ducalis/cops/callbacks_activerecord'
 RSpec.describe Ducalis::CallbacksActiverecord do
   subject(:cop) { described_class.new }
 
-  it 'raises on ActiveRecord classes which contains callbacks' do
+  it '[rule] raises on ActiveRecord classes which contains callbacks' do
     inspect_source(cop, [
                      'class Product < ActiveRecord::Base',
                      '  before_create :generate_code',

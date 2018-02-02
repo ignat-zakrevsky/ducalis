@@ -4,51 +4,22 @@ Please, avoid using of class suffixes like `Meneger`, `Client` and so on. If it 
 
 It's ok to use Manager as subclass of Person, which is there to refine a type of personal that has management behavior to it.
 Related [article](<http://www.carlopescio.com/2011/04/your-coding-conventions-are-hurting-you.html>)
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on classes with suffixes from black list
+raises on classes with suffixes from black list
 ```ruby
-
+# bad
 class ListSorter
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with okish suffixes
-```ruby
-
-class SortedList
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with full match
-```ruby
-
-class Manager
-end
-
 ```
 ## Ducalis::CallbacksActiverecord
 
 Please, avoid using of callbacks for models. It's better to keep models small ("dumb") and instead use "builder" classes/services: to construct new objects.
 You can read more [here](https://medium.com/planet-arkency/a61fd75ab2d3).
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on ActiveRecord classes which contains callbacks
+raises on ActiveRecord classes which contains callbacks
 ```ruby
-
+# bad
 class Product < ActiveRecord::Base
   before_create :generate_code
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores non-ActiveRecord classes which contains callbacks
-```ruby
-
-class Product < BasicProduct
-  before_create :generate_code
-end
-
 ```
 ## Ducalis::CaseMapping
 
@@ -110,29 +81,12 @@ a > 0 ? 1 : -1
 This way decreases code complexity by delegating it to lambdas and makes it easy to unit-testing because it's easy to test pure lambdas.
 
 Such approach is named [table-driven design](<https://www.d.umn.edu/~gshute/softeng/table-driven.html>). Table-driven methods are schemes that allow you to look up information in a table rather than using logic statements (i.e. case, if). In simple cases, it's quicker and easier to use logic statements, but as the logic chain becomes more complex, table-driven code is simpler than complicated logic, easier to modify and more efficient.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on case statements
-```ruby
-
-case grade
-when "A"
-  puts "Well done!"
-when "B"
-  puts "Try harder!"
-when "C"
-  puts "You need help!!!"
-else
-  puts "You just making it up!"
-end
-
-```
 ## Ducalis::ControllersExcept
 
 Prefer to use `:only` over `:except` in controllers because it's more explicit and will be easier to maintain for new developers.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `before_filters` with `except` method as array
+raises for `before_filters` with `except` method as array
 ```ruby
-
+# bad
 class ProductsController < ApplicationController
   before_filter :update_cost, except: [:index]
 
@@ -143,47 +97,13 @@ class ProductsController < ApplicationController
 
   def update_cost; end
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for filters with many actions and only one `except` method
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, :load_me, except: %i[edit]
-
-  def index; end
-  def edit; end
-
-  private
-
-  def update_cost; end
-  def load_me; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `before_filters` without arguments
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost
-
-  def index; end
-
-  private
-
-  def update_cost; end
-end
-
 ```
 ## Ducalis::DataAccessObjects
 
 It's a good practice to move code related to serialization/deserialization out of the controller. Consider of creating Data Access Object to separate the data access parts from the application logic. It will eliminate problems related to refactoring and testing.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `session` object
+raises on working with `session` object
 ```ruby
-
+# bad
 class ProductsController < ApplicationController
   def edit
     session[:start_time] = Time.now
@@ -193,80 +113,6 @@ class ProductsController < ApplicationController
     @time = Date.parse(session[:start_time]) - Time.now
   end
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `cookies` object
-```ruby
-
-class HomeController < ApplicationController
-  def set_cookies
-    cookies[:user_name] = "Horst Meier"
-    cookies[:customer_number] = "1234567890"
-  end
-
-  def show_cookies
-    @user_name = cookies[:user_name]
-    @customer_number = cookies[:customer_number]
-  end
-
-  def delete_cookies
-    cookies.delete :user_name
-    cookies.delete :customer_number
-  end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on working with global `$redis` object
-```ruby
-
-class ProductsController < ApplicationController
-  def update
-    $redis.incr("current_hits")
-  end
-
-  def show
-    $redis.get("current_hits").to_i
-  end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on working with `Redis.current` object
-```ruby
-
-class ProductsController < ApplicationController
-  def update
-    Redis.current.incr("current_hits")
-  end
-
-  def show
-    Redis.current.get("current_hits").to_i
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing DAO-like objects to services
-```ruby
-
-class ProductsController < ApplicationController
-  def update
-    current_hits.increment
-  end
-
-  def show
-    current_hits.count
-  end
-
-  private
-
-  def current_hits
-    @_current_hits ||= CurrentHits.new(Redis.current)
-  end
-end
-
 ```
 ## Ducalis::FetchExpression
 
@@ -275,56 +121,30 @@ You can use `fetch` instead:
 ```ruby
 %<source>s
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on using [] with default
+raises on using [] with default
 ```ruby
+# bad
 params[:to] || destination
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on using ternary operator with default
+raises on using ternary operator with default
 ```ruby
+# bad
 params[:to] ? params[:to] : destination
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on using ternary operator with nil?
-```ruby
-params[:to].nil? ? destination : params[:to]
 ```
 ## Ducalis::KeywordDefaults
 
 Prefer to use keyword arguments for defaults. It increases readability and reduces ambiguities.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method definition contains default values
+raises if method definition contains default values
 ```ruby
+# bad
 def calculate(step, index, dry = true); end
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if class method definition contains default values
-```ruby
-def self.calculate(step, index, dry = true); end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores if method definition contains default values through keywords
-```ruby
-def calculate(step, index, dry: true); end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores for methods without arguments
-```ruby
-def calculate_amount; end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores for class methods without arguments
-```ruby
-def self.calculate_amount; end
 ```
 ## Ducalis::ModuleLikeClass
 
 Seems like it will be better to define initialize and pass %<args>s there instead of each method.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if class doesn't contain constructor but accept the same args
+raises for class without constructor but accepts the same args
 ```ruby
-
+# bad
 class TaskJournal
   def initialize(customer)
     # ...
@@ -344,12 +164,10 @@ class TaskJournal
     # ...
   end
 end
-
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for class with only one public method with args
+raises for class with only one public method with args
 ```ruby
-
+# bad
 class TaskJournal
   def approve(task)
     # ...
@@ -361,52 +179,6 @@ class TaskJournal
     # ...
   end
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with custom includes
-```ruby
-
-class TaskJournal
-  include Singleton
-
-  def approve(task)
-    # ...
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with inheritance
-```ruby
-
-class TaskJournal < BasicJournal
-  def approve(task)
-    # ...
-  end
-
-  private
-
-  def log(record)
-    # ...
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with one method and initializer
-```ruby
-
-class TaskJournal
-  def initialize(task)
-    # ...
-  end
-
-  def call(args)
-    # ...
-  end
-end
-
 ```
 ## Ducalis::MultipleTimes
 
@@ -422,84 +194,21 @@ def period(today: Date.today)
   today..(today + 1.day)
 end
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains more then one Time.current calling
+raises if method contains more then one Time.current calling
 ```ruby
-
+# bad
 def initialize(plan)
   @year = plan[:year] || Date.current.year
   @quarter = plan[:quarter] || quarter(Date.current)
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains mix of different time-related calls
-```ruby
-
-def initialize(plan)
-  @hour = plan[:hour] || Time.current.hour
-  @quarter = plan[:quarter] || quarter(Date.current)
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method contains more then one Date.today calling
-```ruby
-
-def range_to_change
-  [Date.today - RATE_CHANGES_DAYS,
-   Date.today + RATE_CHANGES_DAYS]
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if block contains more then one Date.today calling
-```ruby
-
-validates :year,
-  inclusion: {
-    in: Date.current.year - 1..Date.current.year + 2
-  }
-
 ```
 ## Ducalis::OnlyDefs
 
 Prefer object instances to class methods because class methods resist refactoring. Begin with an object instance, even if it doesn’t have state or multiple methods right away. If you come back to change it later, you will be more likely to refactor. If it never changes, the difference between the class method approach and the instance is negligible, and you certainly won’t be any worse off.
 Related article: https://codeclimate.com/blog/why-ruby-class-methods-resist-refactoring/
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with one instance method
+raises error for class with ONLY class methods
 ```ruby
-
-class TaskJournal
-  def initialize(task)
-    # ...
-  end
-
-  def call(args)
-    # ...
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores classes with mixed methods
-```ruby
-
-class TaskJournal
-  def self.find(task)
-    # ...
-  end
-
-  def call(args)
-    # ...
-  end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises error for class with ONLY class methods
-```ruby
-
+# bad
 class TaskJournal
 
   def self.call(task)
@@ -510,46 +219,10 @@ class TaskJournal
     # ...
   end
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises error for class with ONLY class << self
-```ruby
-
-class TaskJournal
-  class << self
-    def call(task)
-      # ...
-    end
-
-    def find(args)
-      # ...
-    end
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores instance methods mixed with ONLY class << self
-```ruby
-
-class TaskJournal
-  class << self
-    def call(task)
-      # ...
-    end
-  end
-
-  def find(args)
-    # ...
-  end
-end
-
 ```
 ## Ducalis::OptionsArgument
 
 Default `options` (or `args`) argument isn't good idea. It's better to explicitly pass which keys are you interested in as keyword arguments. You can use split operator to support hash arguments.
-
 Compare:
 
 ```ruby
@@ -576,279 +249,75 @@ generate_2(1, **options) #=> ["csv", 5, {:useless_arg=>:value}]
 generate_2(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
 
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts default options argument
+raises if method accepts default options argument
 ```ruby
-
+# bad
 def generate(document, options = {})
   format = options.delete(:format)
   limit = options.delete(:limit) || 20
   [format, limit, options]
 end
-
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts options argument
+raises if method accepts options argument
 ```ruby
-
+# bad
 def log(record, options)
   # ...
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if method accepts args argument
-```ruby
-
-def log(record, args)
-  # ...
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing options with split operator
-```ruby
-
-def generate(document, format:, limit: 20, **options)
-  [format, limit, options]
-end
-
 ```
 ## Ducalis::ParamsPassing
 
 It's better to pass already preprocessed params hash to services. Or you can use `arcane` gem.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if user pass `params` as argument from controller
+raises if user pass `params` as argument from controller
 ```ruby
-
+# bad
 class ProductsController < ApplicationController
   def index
     Record.new(params).log
   end
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if user pass `params` as any argument from controller
-```ruby
-
-class ProductsController < ApplicationController
-  def index
-    Record.new(first_arg, params).log
-  end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if user pass `params` as keyword argument from controller
-```ruby
-
-class ProductsController < ApplicationController
-  def index
-    Record.new(first_arg, any_name: params).log
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing only one `params` field
-```ruby
-
-class ProductsController < ApplicationController
-  def index
-    Record.new(first_arg, params[:id]).log
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing processed `params`
-```ruby
-
-class ProductsController < ApplicationController
-  def index
-    Record.new(first_arg, params.slice(:name)).log
-  end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores passing `params` from `arcane` gem
-```ruby
-
-class ProductsController < ApplicationController
-  def index
-    Record.new(params.for(Log).as(user).refine).log
-  end
-end
-
 ```
 ## Ducalis::PossibleTap
 
 Consider of using `.tap`, default ruby [method](<https://apidock.com/ruby/Object/tap>) which allows to replace intermediate variables with block, by this you are limiting scope pollution and make method scope more clear.
 If it isn't possible, consider of moving it to method or even inline it.
 [Related article](<http://seejohncode.com/2012/01/02/ruby-tap-that/>).
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for methods with scope variable return
+raises for methods with scope variable return
 ```ruby
-
+# bad
 def load_group
   group = channel.groups.find(params[:group_id])
   authorize group, :edit?
   group
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for methods with instance variable changes and return
-```ruby
-
-def load_group
-  @group = Group.find(params[:id])
-  authorize @group
-  @group
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for methods with instance variable `||=` assign and return
-```ruby
-
-def define_roles
-  return [] unless employee
-
-  @roles ||= []
-  @roles << "primary"  if employee.primary?
-  @roles << "contract" if employee.contract?
-  @roles
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for methods which return call on scope variable
-```ruby
-
-def load_group
-  elections = @elections.group_by(&:code)
-  result = elections.map do |code, elections|
-    { code => statistic }
-  end
-  result << total_spend(@elections)
-  result.inject(:merge)
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for methods which return instance variable but have scope vars
-```ruby
-
-def generate_file(file_name)
-  @file = Tempfile.new([file_name, ".pdf"])
-  signed_pdf = some_new_stuff
-  @file.write(signed_pdf.to_pdf)
-  @file.close
-  @file
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores empty methods
-```ruby
-
-def edit
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores methods which body is just call
-```ruby
-
-def total_cost(cost_field)
-  Service.cost_sum(cost_field)
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores methods which return some statement
-```ruby
-
-def stop_terminated_employee
-  if current_user && current_user.terminated?
-    sign_out current_user
-    redirect_to new_user_session_path
-  end
-end
-
-
 ```
 ## Ducalis::PreferableMethods
 
 Prefer to use %<alternative>s method instead of %<original>s because of %<reason>s.
 Dangerous methods are:
 `toggle!`, `save`, `delete`, `delete_all`, `update_attribute`, `update_column`, `update_columns`.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `delete` method calling
+raises for `delete` method calling
 ```ruby
+# bad
 User.where(id: 7).delete
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises `save` method calling with validate: false
+raises `save` method calling with validate: false
 ```ruby
+# bad
 User.where(id: 7).save(validate: false)
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises `update_column` method calling
+raises `update_column` method calling
 ```ruby
+# bad
 User.where(id: 7).update_column(admin: false)
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises `toggle!` method calling
-```ruby
-User.where(id: 7).toggle!
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `save` method calling without validate: false
-```ruby
-User.where(id: 7).save
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `save` method calling without validate: false
-```ruby
-User.where(id: 7).save(some_arg: true)
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` on params
-```ruby
-params.delete(code)
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with symbol
-```ruby
-some_hash.delete(:code)
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with string
-```ruby
-string.delete("-")
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with multiple args
-```ruby
-some.delete(1, header: [])
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` on files-like variables
-```ruby
-tempfile.delete
 ```
 ## Ducalis::PrivateInstanceAssign
 
 Don't use controller's filter methods for setting instance variables, use them only for changing application flow, such as redirecting if a user is not authenticated. Controller instance variables are forming contract between controller and view. Keeping instance variables defined in one place makes it easier to: reason, refactor and remove old views, test controllers and views, extract actions to new controllers, etc.
 If you want to memoize variable, please, add underscore to the variable name start: `@_name`.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for assigning instance variables in controllers private methods
+raises for instance variables in controllers private methods
 ```ruby
-
+# bad
 class EmployeesController < ApplicationController
   private
 
@@ -856,12 +325,10 @@ class EmployeesController < ApplicationController
     @employee = Employee.find(params[:id])
   end
 end
-
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for memoization variables in controllers private methods
+raises for memoization variables in controllers private methods
 ```ruby
-
+# bad
 class EmployeesController < ApplicationController
   private
 
@@ -869,12 +336,10 @@ class EmployeesController < ApplicationController
     @catalog ||= Catalog.new
   end
 end
-
 ```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores memoization variables in controllers private methods with _
+ignores memoization variables in private methods with _
 ```ruby
-
+# good
 class EmployeesController < ApplicationController
   private
 
@@ -882,24 +347,6 @@ class EmployeesController < ApplicationController
     @_catalog ||= Catalog.new
   end
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores assigning instance variables in controllers public methods
-```ruby
-
-class EmployeesController < ApplicationController
-  def index
-    @employee = load_employee
-  end
-
-  private
-
-  def load_employee
-    Employee.find(params[:id])
-  end
-end
-
 ```
 ## Ducalis::ProtectedScopeCop
 
@@ -911,71 +358,24 @@ current_group.employees.find(params[:id])
 # better then
 Employee.find(params[:id])
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if somewhere AR search was called on not protected scope
+raises if somewhere AR search was called on not protected scope
 ```ruby
+# bad
 Group.find(8)
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called even for chain of calls
-```ruby
-Group.includes(:profiles).find(8)
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called with find_by id
-```ruby
-Group.includes(:profiles).find_by(id: 8)
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if AR search was called on unnamespaced constant
-```ruby
-::Group.find(8)
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) ignores where statements and still raises error
-```ruby
-Group.includes(:profiles).where(name: "John").find(8)
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores find method with passed block
-```ruby
-MAPPING.find { |x| x == 42 }
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores find method with passed multiline block
-```ruby
-
-MAPPING.find do |x|
-  x == 42
-end
-
 ```
 ## Ducalis::RaiseWithoutErrorClass
 
 It's better to add exception class as raise argument. It will make easier to catch and process it later.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises when `raise` called without exception class
+raises when `raise` called without exception class
 ```ruby
+# bad
 raise "Something went wrong"
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises when `raise` called without arguments
-```ruby
-raise
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores when `raise` called with exception class
-```ruby
-raise StandardError, "Something went wrong"
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores when `raise` called with exception instance
-```ruby
-raise StandardError.new("Something went wrong")
 ```
 ## Ducalis::RegexCop
 
 It's better to move regex to constants with example instead of direct using it. It will allow you to reuse this regex and provide instructions for others.
+
+Example:
 
 ```ruby
 CONST_NAME = %<constant>s # "%<example>s"
@@ -983,237 +383,67 @@ CONST_NAME = %<constant>s # "%<example>s"
 ```
 Available regexes are:
       `/[[:alnum:]]/`, `/[[:alpha:]]/`, `/[[:blank:]]/`, `/[[:cntrl:]]/`, `/[[:digit:]]/`, `/[[:graph:]]/`, `/[[:lower:]]/`, `/[[:print:]]/`, `/[[:punct:]]/`, `/[[:space:]]/`, `/[[:upper:]]/`, `/[[:xdigit:]]/`, `/[[:word:]]/`, `/[[:ascii:]]/`
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if somewhere in code used regex which is not moved to const
+raises if somewhere used regex which is not moved to const
 ```ruby
-
+# bad
 name = "john"
 puts "hi" if name =~ /john/
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if somewhere in code used regex but defined another const
-```ruby
-
-ANOTHER_CONST = /ivan/
-puts "hi" if name =~ /john/
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores matching constants
-```ruby
-
-REGEX = /john/
-name = "john"
-puts "hi" if name =~ REGEX
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores freeze calling
-```ruby
-
-REGEX = /john/.freeze
-puts "hi" if name =~ REGEX
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores named ruby constants
-```ruby
-
-name = "john"
-puts "hi" if name =~ /[[:alpha:]]/
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores dynamic regexs
-```ruby
-
-name = "john"
-puts "hi" if name =~ /.{#{name.length}}/
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) rescue dynamic regexes dynamic regexs
-```ruby
-
-name = "john"
-puts "hi" if name =~ /foo(?=bar)/
-
 ```
 ## Ducalis::RestOnlyCop
 
 It's better for controllers to stay adherent to REST:
 http://jeromedalbert.com/how-dhh-organizes-his-rails-controllers/.
 [About RESTful architecture](<https://confreaks.tv/videos/railsconf2017-in-relentless-pursuit-of-rest>)
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for controllers with non-REST methods
+raises for controllers with non-REST methods
 ```ruby
-
+# bad
 class ProductsController < ApplicationController
   def index; end
   def recalculate; end
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores controllers with private non-REST methods
-```ruby
-
-class ProductsController < ApplicationController
-  def index; end
-
-  private
-
-  def recalculate; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores controllers with only REST methods
-```ruby
-
-class ProductsController < ApplicationController
-  def index; end
-  def show; end
-  def new; end
-  def edit; end
-  def create; end
-  def update; end
-  def destroy; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores non-controllers with non-REST methods
-```ruby
-
-class PriceStore
-  def index; end
-  def recalculate; end
-end
-
 ```
 ## Ducalis::RubocopDisable
 
 Please, do not suppress RuboCop metrics, may be you can introduce some refactoring or another concept.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises on RuboCop disable comments
+raises on RuboCop disable comments
 ```ruby
-
+# bad
 # rubocop:disable Metrics/ParameterLists
 def calculate(five, args, at, one, list); end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores comment without RuboCop disabling
-```ruby
-
-# some meaningful comment
-def calculate(five, args, at, one, list); end
-
 ```
 ## Ducalis::StandardMethods
 
 Please, be sure that you really want to redefine standard ruby methods.
 You should know what are you doing and all consequences.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises if use redefines default ruby methods
+raises if use redefines default ruby methods
 ```ruby
-
+# bad
 def to_s
   "my version"
 end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores if use defines simple ruby methods
-```ruby
-
-def present
-  "my version"
-end
-
 ```
 ## Ducalis::StringsInActiverecords
 
 Please, do not use strings as arguments for %<method_name>s argument. It's hard to test, grep sources, code highlighting and so on. Consider using of symbols or lambdas for complex expressions.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for string if argument
+raises for string if argument
 ```ruby
-
+# bad
 before_save :set_full_name, 
  if: 'name_changed? || postfix_name_changed?'
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores lambda if argument
-```ruby
-validates :file, if: -> { remote_url.blank? }
 ```
 ## Ducalis::TooLongWorkers
 
 Seems like your worker is doing too much work, consider of moving business logic to service object. As rule, workers should have only two responsibilities:
 - __Model materialization__: As async jobs working with serialized attributes it's nescessary to cast them into actual objects.
 - __Errors handling__: Rescue errors and figure out what to do with them.
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for a class with more than 5 lines
+raises for a class with more than 5 lines
 ```ruby
+# bad
 class TestWorker
   a = 1
   a = 2
   a = 3
   a = 4
-  a = 5
-  a = 6
-end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores non-worker classes
-```ruby
-class StrangeClass
-  a = 1
-  a = 2
-  a = 3
-  a = 4
-  a = 5
-  a = 6
-end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) accepts a class with 5 lines
-```ruby
-class TestWorker
-  a = 1
-  a = 2
-  a = 3
-  a = 4
-  a = 5
-end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) accepts a class with less than 5 lines
-```ruby
-class TestWorker
-  a = 1
-  a = 2
-  a = 3
-  a = 4
-end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) accepts empty classes
-```ruby
-class TestWorker
-end
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) also counts commented lines
-```ruby
-class TestWorker
-  a = 1
-  #a = 2
-  a = 3
-  #a = 4
   a = 5
   a = 6
 end
@@ -1222,71 +452,39 @@ end
 
 Please, add comment why are you including non-realized gem version for %<gem>s.
 It will increase [bus-factor](<https://en.wikipedia.org/wiki/Bus_factor>).
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for gem from github without comment
+raises for gem from github without comment
 ```ruby
-
+# bad
 gem 'pry', '~> 0.10', '>= 0.10.0'
 gem 'rake', '~> 12.1'
 gem 'rspec', git: 'https://github.com/rspec/rspec'
-
 ```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores for gem from github with comment
+ignores for gem from github with comment
 ```ruby
-
+# good
 gem 'pry', '~> 0.10', '>= 0.10.0'
 gem 'rake', '~> 12.1'
 gem 'rspec', github: 'rspec/rspec' # new non released API
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with require directive
-```ruby
-
-gem 'pry', '~> 0.10', '>= 0.10.0'
-gem 'rake', '~> 12.1'
-gem 'rest-client', require: 'rest_client'
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with group directive
-```ruby
-
-gem 'rake', '~> 12.1'
-gem 'wirble', group: :development
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with group directive and old syntax style
-```ruby
-
-gem 'rake', '~> 12.1'
-gem 'wirble', :group => :development
-
 ```
 ## Ducalis::UnlockedGem
 
 It's better to lock gem versions explicitly with pessimistic operator (~>).
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for gem without version
+raises for gem without version
 ```ruby
+# bad
 gem 'pry'
 ```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores gems with locked versions
+ignores gems with locked versions
 ```ruby
-
+# good
 gem 'pry', '~> 0.10', '>= 0.10.0'
 gem 'rake', '~> 12.1'
 gem 'thor', '= 0.20.0'
 gem 'rspec', github: 'rspec/rspec'
-
 ```
 ## Ducalis::UselessOnly
 
 Seems like there is no any reason to keep before filter only for one action. Maybe it will be better to inline it?
-
 ```ruby
 before_filter :do_something, only: %i[index]
 def index; end
@@ -1297,10 +495,9 @@ def index
   do_something
 end
 ```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `before_filters` with only one method as array
+raises for `before_filters` with only one method
 ```ruby
-
+# bad
 class ProductsController < ApplicationController
   before_filter :update_cost, only: [:index]
 
@@ -1310,97 +507,4 @@ class ProductsController < ApplicationController
 
   def update_cost; end
 end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `before_filters` with only one method as keyword array
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, only: %i[index]
-
-  def index; end
-
-  private
-
-  def update_cost; end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `before_filters` with many actions and only one method
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, :load_me, only: %i[index]
-
-  def index; end
-
-  private
-
-  def update_cost; end
-  def load_me; end
-end
-
-```
-
-![](https://placehold.it/10/f03c15/000000?text=+) raises for `before_filters` with only one method as argument
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, only: :index
-
-  def index; end
-
-  private
-
-  def update_cost; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `before_filters` without arguments
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost
-
-  def index; end
-
-  private
-
-  def update_cost; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `before_filters` with `only` and many arguments
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, only: %i[index show]
-
-  def index; end
-  def show; end
-
-  private
-
-  def update_cost; end
-end
-
-```
-
-![](https://placehold.it/10/2cbe4e/000000?text=+) ignores `before_filters` with `except` and one argument
-```ruby
-
-class ProductsController < ApplicationController
-  before_filter :update_cost, except: %i[index]
-
-  def index; end
-
-  private
-
-  def update_cost; end
-end
-
 ```

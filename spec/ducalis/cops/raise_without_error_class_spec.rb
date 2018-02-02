@@ -6,7 +6,7 @@ require './lib/ducalis/cops/raise_without_error_class'
 RSpec.describe Ducalis::RaiseWithoutErrorClass do
   subject(:cop) { described_class.new }
 
-  it 'raises when `raise` called without exception class' do
+  it '[rule] raises when `raise` called without exception class' do
     inspect_source(cop, 'raise "Something went wrong"')
     expect(cop).to raise_violation(/exception class/)
   end

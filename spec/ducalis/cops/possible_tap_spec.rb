@@ -6,7 +6,7 @@ require './lib/ducalis/cops/possible_tap'
 RSpec.describe Ducalis::PossibleTap do
   subject(:cop) { described_class.new }
 
-  it 'raises for methods with scope variable return' do
+  it '[rule] raises for methods with scope variable return' do
     inspect_source(cop, [
                      'def load_group',
                      '  group = channel.groups.find(params[:group_id])',
