@@ -987,11 +987,27 @@ puts "hi" if name =~ /john/
 
 ```
 
+![](https://placehold.it/10/f03c15/000000?text=+) raises if somewhere in code used regex but defined another const
+```ruby
+
+ANOTHER_CONST = /ivan/
+puts "hi" if name =~ /john/
+
+```
+
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores matching constants
 ```ruby
 
 REGEX = /john/
 name = "john"
+puts "hi" if name =~ REGEX
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores freeze calling
+```ruby
+
+REGEX = /john/.freeze
 puts "hi" if name =~ REGEX
 
 ```
@@ -1009,6 +1025,14 @@ puts "hi" if name =~ /[[:alpha:]]/
 
 name = "john"
 puts "hi" if name =~ /.{#{name.length}}/
+
+```
+
+![](https://placehold.it/10/2cbe4e/000000?text=+) rescue dynamic regexes dynamic regexs
+```ruby
+
+name = "john"
+puts "hi" if name =~ /foo(?=bar)/
 
 ```
 ## Ducalis::RestOnlyCop

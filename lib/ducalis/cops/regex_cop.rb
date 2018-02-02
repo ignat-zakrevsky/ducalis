@@ -5,6 +5,8 @@ require 'regexp-examples'
 
 module Ducalis
   class RegexCop < RuboCop::Cop::Cop
+    include RuboCop::Cop::DefNode
+
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | It's better to move regex to constants with example instead of direct using it. It will allow you to reuse this regex and provide instructions for others.
 
@@ -34,22 +36,47 @@ module Ducalis
     DETAILS = "Available regexes are:
       #{SELF_DESCRIPTIVE.map { |name| "`#{name}`" }.join(', ')}"
 
-    def on_regexp(node)
-      return if node.parent.type == :casgn
-      return if SELF_DESCRIPTIVE.include?(node.source)
-      return if node.child_nodes.any? { |child_node| child_node.type == :begin }
-      add_offense(node, :expression, format(OFFENSE, present_node(node)))
+    DEFAULT_EXAMPLE = 'some_example'
+
+    def on_begin(node)
+      not_defined_regexes(node).each do |regex|
+        next if SELF_DESCRIPTIVE.include?(regex.source) || const_dynamic?(regex)
+        add_offense(regex, :expression, format(OFFENSE, present_node(regex)))
+      end
     end
 
     private
+
+    def_node_search :const_using, '(regexp $_ ... (regopt))'
+    def_node_search :const_definition, '(casgn ...)'
+
+    def not_defined_regexes(node)
+      const_using(node).reject do |regex|
+        defined_as_const?(regex, const_definition(node))
+      end.map(&:parent)
+    end
+
+    def defined_as_const?(regex, definitions)
+      definitions.any? { |node| const_using(node).any? { |use| use == regex } }
+    end
+
+    def const_dynamic?(node)
+      node.child_nodes.any?(&:begin_type?)
+    end
 
     def present_node(node)
       {
         constant: node.source,
         fixed_string: node.source_range.source_line
                           .sub(node.source, 'CONST_NAME').lstrip,
-        example: Regexp.new(node.to_a.first.to_a.first).examples.sample
+        example: regex_sample(node)
       }
+    end
+
+    def regex_sample(node)
+      Regexp.new(node.to_a.first.to_a.first).examples.sample
+    rescue RegexpExamples::IllegalSyntaxError
+      DEFAULT_EXAMPLE
     end
   end
 end

@@ -16,10 +16,26 @@ RSpec.describe Ducalis::RegexCop do
     expect(cop).to raise_violation(/puts "hi" if name =~ CONST_NAME/)
   end
 
+  it 'raises if somewhere in code used regex but defined another const' do
+    inspect_source(cop, [
+                     'ANOTHER_CONST = /ivan/',
+                     'puts "hi" if name =~ /john/'
+                   ])
+    expect(cop).to raise_violation(/puts "hi"/)
+  end
+
   it 'ignores matching constants' do
     inspect_source(cop, [
                      'REGEX = /john/',
                      'name = "john"',
+                     'puts "hi" if name =~ REGEX'
+                   ])
+    expect(cop).to_not raise_violation
+  end
+
+  it 'ignores freeze calling' do
+    inspect_source(cop, [
+                     'REGEX = /john/.freeze',
                      'puts "hi" if name =~ REGEX'
                    ])
     expect(cop).to_not raise_violation
@@ -39,5 +55,15 @@ RSpec.describe Ducalis::RegexCop do
                      'puts "hi" if name =~ /.{#{name.length}}/'
                    ])
     expect(cop).to_not raise_violation
+  end
+
+  it 'rescue dynamic regexes dynamic regexs' do
+    inspect_source(cop, [
+                     'name = "john"',
+                     'puts "hi" if name =~ /foo(?=bar)/'
+                   ])
+    expect(cop).to raise_violation(
+      %r{CONST_NAME = /foo\(\?=bar\)/ # "some_example"}
+    )
   end
 end
