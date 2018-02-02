@@ -7,11 +7,13 @@ module Ducalis
       | Prefer to use %<alternative>s method instead of %<original>s because of %<reason>s.
     MESSAGE
 
+    WHITE_LIST = %w(cache file params attrs options).freeze
+
     ALWAYS_TRUE = ->(_who, _what, _args) { true }
 
     DELETE_CHECK = lambda do |who, _what, args|
       !%i(sym str).include?(args.first && args.first.type) &&
-        args.count <= 1 && who.to_s !~ /file/
+        args.count <= 1 && !WHITE_LIST.any? { |regex| who.to_s.include?(regex) }
     end
 
     VALIDATE_CHECK = lambda do |_who, _what, args|

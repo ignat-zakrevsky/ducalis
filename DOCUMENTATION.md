@@ -817,9 +817,14 @@ User.where(id: 7).save
 User.where(id: 7).save(some_arg: true)
 ```
 
+![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` on params
+```ruby
+params.delete(code)
+```
+
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with symbol
 ```ruby
-params.delete(:code)
+some_hash.delete(:code)
 ```
 
 ![](https://placehold.it/10/2cbe4e/000000?text=+) ignores calling `delete` with string

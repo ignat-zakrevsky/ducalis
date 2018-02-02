@@ -33,8 +33,13 @@ RSpec.describe Ducalis::PreferableMethods do
     expect(cop).to_not raise_violation
   end
 
+  it 'ignores calling `delete` on params' do
+    inspect_source(cop, 'params.delete(code)')
+    expect(cop).to_not raise_violation
+  end
+
   it 'ignores calling `delete` with symbol' do
-    inspect_source(cop, 'params.delete(:code)')
+    inspect_source(cop, 'some_hash.delete(:code)')
     expect(cop).to_not raise_violation
   end
 
