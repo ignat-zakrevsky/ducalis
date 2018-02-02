@@ -114,6 +114,19 @@ class ProductsController < ApplicationController
   end
 end
 ```
+## Ducalis::EnforceNamespace
+
+Too improve code organization it is better to define namespaces to group services by high-level features, domains or any other dimension.
+raises on classes without namespace
+```ruby
+# bad
+class MyService; end
+```
+raises on modules without namespace
+```ruby
+# bad
+module MyServiceModule; end
+```
 ## Ducalis::FetchExpression
 
 You can use `fetch` instead:

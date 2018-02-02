@@ -20,6 +20,10 @@ Ducalis/BlackListSuffix:
     - Renderer
     - Loader
 
+Ducalis/EnforceNamespace:
+  Enabled: true
+  ServicePath: 'app/services'
+
 Ducalis/PreferableMethods:
   Enabled: true
 
