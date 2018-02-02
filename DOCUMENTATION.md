@@ -127,6 +127,20 @@ raises on modules without namespace
 # bad
 module MyServiceModule; end
 ```
+## Ducalis::EvlisOverusing
+
+Seems like you are overusing safe navigation operator. Try to use right method (ex: `dig` for hashes), null object pattern or ensure types via explicit conversion (`to_a`, `to_s` and so on).
+Related article: https://karolgalanciak.com/blog/2017/09/24/do-or-do-not-there-is-no-try-object-number-try-considered-harmful/
+raises on multiple safe operator callings
+```ruby
+# bad
+user&.person&.full_name
+```
+raises on multiple try callings
+```ruby
+# bad
+product.try(:manufacturer).try(:contact)
+```
 ## Ducalis::FetchExpression
 
 You can use `fetch` instead:
