@@ -39,6 +39,9 @@ Ducalis/DataAccessObjects:
 Ducalis/PossibleTap:
   Enabled: false
 
+Ducalis/PublicSend:
+  Enabled: false
+
 Ducalis/FetchExpression:
   Enabled: true
 
