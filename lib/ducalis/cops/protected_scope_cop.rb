@@ -16,6 +16,7 @@ module Ducalis
       | # better then
       | Employee.find(params[:id])
       | ```
+
     MESSAGE
 
     def on_send(node)

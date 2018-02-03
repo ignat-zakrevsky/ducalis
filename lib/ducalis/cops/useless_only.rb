@@ -9,6 +9,8 @@ module Ducalis
     MESSAGE
 
     DETAILS = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
+      | Compare:
+
       | ```ruby
       | before_filter :do_something, only: %i[index]
       | def index; end
@@ -18,7 +20,9 @@ module Ducalis
       | def index
       |   do_something
       | end
+
       | ```
+
     MESSAGE
 
     FILTERS = %i(before_filter after_filter around_filter

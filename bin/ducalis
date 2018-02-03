@@ -19,6 +19,12 @@ Env `GITHUB_TOKEN` should be available to receive PRs files."
   exit 0
 end
 
+if ARGV.any? { |arg| arg == '--docs' }
+  require 'ducalis/documentation'
+  File.write(ARGV[1] || 'DOCUMENTATION.md', Documentation.new.call)
+  exit 0
+end
+
 if Ducalis::PassedArgs.ci_mode?
   Ducalis::CLI.new(ARGV - %w(--ci)).start
 else

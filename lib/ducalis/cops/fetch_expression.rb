@@ -12,6 +12,7 @@ module Ducalis
       | ```ruby
       | %<source>s
       | ```
+
     MESSAGE
 
     def investigate(processed_source)

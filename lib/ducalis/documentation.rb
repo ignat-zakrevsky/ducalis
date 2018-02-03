@@ -69,7 +69,7 @@ class Documentation
   RULE_WORD = '[rule]'
 
   def call
-    Dir['./lib/ducalis/cops/*.rb'].sort.map do |f|
+    Dir[File.join(File.dirname(__FILE__), 'cops', '*.rb')].sort.map do |f|
       present_cop(klass_const_for(f), spec_cases_for(f))
     end.flatten.join("\n")
   end
@@ -79,12 +79,12 @@ class Documentation
   def present_cop(klass, specs)
     [
       "## #{klass}\n",                                  # header
-      message(klass)                                    # description
+      message(klass) + "\n"                             # description
     ] +
       specs.map do |(it, code)|
         [
-          prepare(it).to_s,                                  # case description
-          "```ruby\n#{mention(it)}\n#{code.join("\n")}\n```" # code example
+          prepare(it).to_s, # case description
+          "\n```ruby\n#{mention(it)}\n#{code.join("\n")}\n```\n" # code example
         ]
       end
   end

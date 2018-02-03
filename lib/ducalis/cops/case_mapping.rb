@@ -13,7 +13,7 @@ module Ducalis
       | Usually `case when` statements are using for the next reasons:
 
       | I. Mapping between different values.
-      | ("A" => 1, "B" => 2, ...)
+      | `("A" => 1, "B" => 2, ...)`
 
       | This case is all about data representing. If you do not need to execute any code it's better to use data structure which represents it. This way you are separating concepts: code returns corresponding value and you have config-like data structure which describes your data.
 
@@ -25,12 +25,13 @@ module Ducalis
 
       | II. Code execution depending of parameter or type:
 
-      |   - a. (:attack => attack, :defend => defend)
-      |   - b. (Feet => value * 0.348, Meters => `value`)
+      |   - a. `(:attack => attack, :defend => defend)`
+      |   - b. `(Feet => value * 0.348, Meters => `value`)`
 
       | In this case code violates OOP and S[O]LID principle. Code shouldn't know about object type and classes should be open for extension, but closed for modification (but you can't do it with case-statements). This is a signal that you have some problems with architecture.
 
       |  a.
+
       | ```ruby
       | attack: -> { execute_attack }, defend: -> { execute_defend }
       | #{(action = '#{' + 'action' + '}') && '# or'}
@@ -38,13 +39,17 @@ module Ducalis
       | ```
 
       | b.
+
       | ```ruby
       | class Meters; def to_metters; value;         end
       | class Feet;   def to_metters; value * 0.348; end
       | ```
 
       | III. Code execution depending on some statement.
+
+      | ```ruby
       | (`a > 0` => 1, `a == 0` => 0, `a < 0` => -1)
+      | ```
 
       | This case is combination of I and II -- high code complexity and unit-tests complexity. There are variants how to solve it:
 

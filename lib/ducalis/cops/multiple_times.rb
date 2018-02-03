@@ -22,6 +22,7 @@ module Ducalis
       |   today..(today + 1.day)
       | end
       | ```
+
     MESSAGE
 
     PARAMS_CALL = s(:send, nil, :params)

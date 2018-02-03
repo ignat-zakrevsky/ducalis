@@ -16,6 +16,7 @@ module Ducalis
       | CONST_NAME = %<constant>s # "%<example>s"
       | %<fixed_string>s
       | ```
+
     MESSAGE
 
     SELF_DESCRIPTIVE = %w(

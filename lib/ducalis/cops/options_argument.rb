@@ -33,8 +33,8 @@ module Ducalis
       | options = { format: 'csv', limit: 5, useless_arg: :value }
       | generate_2(1, **options) #=> ["csv", 5, {:useless_arg=>:value}]
       | generate_2(1, format: 'csv', limit: 5, useless_arg: :value) #=> ["csv", 5, {:useless_arg=>:value}]
-
       | ```
+
     MESSAGE
 
     def on_def(node)

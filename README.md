@@ -9,6 +9,8 @@ As __Ducalis__ isn't style checker and could sometimes be false-positive it's no
 necessary to follow all it rules, the main purpose of __Ducalis__ is help to find
 possible weak code parts.
 
+[Documentation](<https://ducalis-rb.github.io/>)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -77,7 +79,3 @@ To pass your code through the all checks you simply need to run:
 ```
 bundle exec rake
 ```
-
-Please, do not edit
-[DOCUMENTATION.md](<https://github.com/ignat-z/ducalis/blob/master/DOCUMENTATION.md>),
-this file is generating by `bundle exec rake documentation` command.
