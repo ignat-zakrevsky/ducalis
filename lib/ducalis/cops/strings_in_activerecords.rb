@@ -10,10 +10,10 @@ module Ducalis
     MESSAGE
 
     VALIDATEBLE_METHODS =
-      ::Ducalis::CallbacksActiverecord::METHODS_BLACK_LIST + %i(
+      ::Ducalis::CallbacksActiverecord::METHODS_BLACK_LIST + %i[
         validates
         validate
-      )
+      ]
 
     def on_send(node)
       _, method_name, *args = *node
@@ -30,7 +30,7 @@ module Ducalis
     def skip_node?(current_node)
       key, value = *current_node
       return true unless current_node.type == :pair
-      return true unless %w(if unless).include?(key.source)
+      return true unless %w[if unless].include?(key.source)
       return true unless value.type == :str
       false
     end

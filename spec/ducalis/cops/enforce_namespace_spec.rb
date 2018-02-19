@@ -8,22 +8,22 @@ RSpec.describe Ducalis::EnforceNamespace do
   before { allow(cop).to receive(:in_service?).and_return true }
 
   it '[rule] raises on classes without namespace' do
-    inspect_source(cop, 'class MyService; end')
+    inspect_source('class MyService; end')
     expect(cop).to raise_violation(/namespace/)
   end
 
   it '[rule] raises on modules without namespace' do
-    inspect_source(cop, 'module MyServiceModule; end')
+    inspect_source('module MyServiceModule; end')
     expect(cop).to raise_violation(/namespace/)
   end
 
   it 'ignores alone class with namespace' do
-    inspect_source(cop, 'module My; class Service; end; end')
+    inspect_source('module My; class Service; end; end')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores multiple classes with namespace' do
-    inspect_source(cop, 'module My; class Service; end; class A; end; end')
+    inspect_source('module My; class Service; end; class A; end; end')
     expect(cop).to_not raise_violation
   end
 end

@@ -7,54 +7,54 @@ RSpec.describe Ducalis::PreferableMethods do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for `delete` method calling' do
-    inspect_source(cop, 'User.where(id: 7).delete')
+    inspect_source('User.where(id: 7).delete')
     expect(cop).to raise_violation(/destroy/)
   end
 
   it '[rule] raises `save` method calling with validate: false' do
-    inspect_source(cop, 'User.where(id: 7).save(validate: false)')
+    inspect_source('User.where(id: 7).save(validate: false)')
     expect(cop).to raise_violation(/save/)
   end
 
   it '[rule] raises `update_column` method calling' do
-    inspect_source(cop, 'User.where(id: 7).update_column(admin: false)')
+    inspect_source('User.where(id: 7).update_column(admin: false)')
     expect(cop).to raise_violation(/update/)
     expect(cop).to raise_violation(/update_attributes/)
   end
 
   it 'raises `toggle!` method calling' do
-    inspect_source(cop, 'User.where(id: 7).toggle!')
+    inspect_source('User.where(id: 7).toggle!')
     expect(cop).to raise_violation(/toggle.save/)
   end
 
   it 'ignores `save` method calling without validate: false' do
-    inspect_source(cop, 'User.where(id: 7).save')
-    inspect_source(cop, 'User.where(id: 7).save(some_arg: true)')
+    inspect_source('User.where(id: 7).save')
+    inspect_source('User.where(id: 7).save(some_arg: true)')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores calling `delete` on params' do
-    inspect_source(cop, 'params.delete(code)')
+    inspect_source('params.delete(code)')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores calling `delete` with symbol' do
-    inspect_source(cop, 'some_hash.delete(:code)')
+    inspect_source('some_hash.delete(:code)')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores calling `delete` with string' do
-    inspect_source(cop, 'string.delete("-")')
+    inspect_source('string.delete("-")')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores calling `delete` with multiple args' do
-    inspect_source(cop, 'some.delete(1, header: [])')
+    inspect_source('some.delete(1, header: [])')
     expect(cop).to_not raise_violation
   end
 
   it 'ignores calling `delete` on files-like variables' do
-    inspect_source(cop, 'tempfile.delete')
+    inspect_source('tempfile.delete')
     expect(cop).to_not raise_violation
   end
 end

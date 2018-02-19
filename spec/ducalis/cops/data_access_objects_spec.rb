@@ -7,7 +7,7 @@ RSpec.describe Ducalis::DataAccessObjects do
   subject(:cop) { described_class.new }
 
   it '[rule] raises on working with `session` object' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def edit',
                      '    session[:start_time] = Time.now',
@@ -22,7 +22,7 @@ RSpec.describe Ducalis::DataAccessObjects do
   end
 
   it 'raises on working with `cookies` object' do
-    inspect_source(cop, [
+    inspect_source([
                      'class HomeController < ApplicationController',
                      '  def set_cookies',
                      '    cookies[:user_name] = "Horst Meier"',
@@ -44,7 +44,7 @@ RSpec.describe Ducalis::DataAccessObjects do
   end
 
   it 'raises on working with global `$redis` object' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def update',
                      '    $redis.incr("current_hits")',
@@ -59,7 +59,7 @@ RSpec.describe Ducalis::DataAccessObjects do
   end
 
   it 'raises on working with `Redis.current` object' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def update',
                      '    Redis.current.incr("current_hits")',
@@ -74,7 +74,7 @@ RSpec.describe Ducalis::DataAccessObjects do
   end
 
   it 'ignores passing DAO-like objects to services' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def update',
                      '    current_hits.increment',

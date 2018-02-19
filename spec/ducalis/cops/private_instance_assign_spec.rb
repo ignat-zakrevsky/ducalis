@@ -7,7 +7,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for instance variables in controllers private methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class EmployeesController < ApplicationController',
                      '  private',
                      '',
@@ -20,7 +20,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
   end
 
   it '[rule] raises for memoization variables in controllers private methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class EmployeesController < ApplicationController',
                      '  private',
                      '',
@@ -33,7 +33,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
   end
 
   it '[rule] ignores memoization variables in private methods with _' do
-    inspect_source(cop, [
+    inspect_source([
                      'class EmployeesController < ApplicationController',
                      '  private',
                      '',
@@ -46,7 +46,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
   end
 
   it 'ignores assigning instance variables in controllers public methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class EmployeesController < ApplicationController',
                      '  def index',
                      '    @employee = load_employee',

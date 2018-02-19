@@ -7,13 +7,12 @@ RSpec.describe Ducalis::UnlockedGem do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for gem without version' do
-    inspect_source(cop, "gem 'pry'")
+    inspect_source("gem 'pry'")
     expect(cop).to raise_violation(/lock gem/)
   end
 
   it '[rule] ignores gems with locked versions' do
-    inspect_source(cop,
-                   [
+    inspect_source([
                      "gem 'pry', '~> 0.10', '>= 0.10.0'",
                      "gem 'rake', '~> 12.1'",
                      "gem 'thor', '= 0.20.0'",

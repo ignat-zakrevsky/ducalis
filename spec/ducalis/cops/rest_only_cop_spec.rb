@@ -7,7 +7,7 @@ RSpec.describe Ducalis::RestOnlyCop do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for controllers with non-REST methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def index; end',
                      '  def recalculate; end',
@@ -17,7 +17,7 @@ RSpec.describe Ducalis::RestOnlyCop do
   end
 
   it 'ignores controllers with private non-REST methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def index; end',
                      '',
@@ -30,7 +30,7 @@ RSpec.describe Ducalis::RestOnlyCop do
   end
 
   it 'ignores controllers with only REST methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def index; end',
                      '  def show; end',
@@ -45,7 +45,7 @@ RSpec.describe Ducalis::RestOnlyCop do
   end
 
   it 'ignores non-controllers with non-REST methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class PriceStore',
                      '  def index; end',
                      '  def recalculate; end',

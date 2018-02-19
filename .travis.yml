@@ -1,5 +1,6 @@
 language: ruby
 rvm:
+  - 2.1.1
   - 2.2.9
   - 2.3.6
   - 2.4.3
@@ -7,3 +8,10 @@ before_install:
   - gem update --system
   - gem --version
   - gem install bundler
+script:
+  - bundle exec rake
+  - bash bin/legacy_versions_test.sh
+matrix:
+  include:
+    - rvm: 2.5.0
+      env: IGNORE_LEGACY=true

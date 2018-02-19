@@ -8,24 +8,24 @@ RSpec.describe Ducalis::EvlisOverusing do
   subject(:cop) { described_class.new }
 
   it '[rule] raises on multiple safe operator callings' do
-    if cop.target_ruby_version >= ruby_version
-      inspect_source(cop, 'user&.person&.full_name')
+    if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new(ruby_version.to_s)
+      inspect_source('user&.person&.full_name')
       expect(cop).to raise_violation(/overusing/)
     end
   end
 
   it '[rule] raises on multiple try callings' do
-    inspect_source(cop, 'product.try(:manufacturer).try(:contact)')
+    inspect_source('product.try(:manufacturer).try(:contact)')
     expect(cop).to raise_violation(/overusing/)
   end
 
   it 'raises on multiple try! callings' do
-    inspect_source(cop, 'product.try!(:manufacturer).try!(:contact)')
+    inspect_source('product.try!(:manufacturer).try!(:contact)')
     expect(cop).to raise_violation(/overusing/)
   end
 
   it 'raises on multiple safe try callings' do
-    inspect_source(cop, 'params[:account].try(:[], :owner).try(:[], :address)')
+    inspect_source('params[:account].try(:[], :owner).try(:[], :address)')
     expect(cop).to raise_violation(/overusing/)
   end
 end

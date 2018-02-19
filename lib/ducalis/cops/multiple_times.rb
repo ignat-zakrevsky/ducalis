@@ -42,9 +42,9 @@ module Ducalis
     alias on_defs on_def
     alias on_send on_def
 
-    def_node_search :date_today, '(send (const nil :Date) :today)'
-    def_node_search :date_current, '(send (const nil :Date) :current)'
-    def_node_search :time_current, '(send (const nil :Time) :current)'
-    def_node_search :time_now, '(send (const nil :Time) :now)'
+    def_node_search :date_today, '(send (const _ :Date) :today)'
+    def_node_search :date_current, '(send (const _ :Date) :current)'
+    def_node_search :time_current, '(send (const _ :Time) :current)'
+    def_node_search :time_now, '(send (const _ :Time) :now)'
   end
 end

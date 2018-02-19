@@ -4,7 +4,7 @@ require 'parser/current'
 require 'policial'
 
 module Ducalis
-  DOTFILE = '.ducalis.yml'
+  DOTFILE = '.ducalis.yml'.freeze
   DUCALIS_HOME = File.realpath(File.join(File.dirname(__FILE__), '..'))
   DEFAULT_FILE = File.join(DUCALIS_HOME, 'config', DOTFILE)
 end
@@ -61,3 +61,7 @@ require 'ducalis/cops/too_long_workers'
 require 'ducalis/cops/uncommented_gem'
 require 'ducalis/cops/unlocked_gem'
 require 'ducalis/cops/useless_only'
+
+require 'ducalis/cops/extensions/rubocop_cast'
+
+RuboCop::Cop::Cop.prepend(RubocopCast)

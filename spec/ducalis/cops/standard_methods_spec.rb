@@ -7,7 +7,7 @@ RSpec.describe Ducalis::StandardMethods do
   subject(:cop) { described_class.new }
 
   it '[rule] raises if use redefines default ruby methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'def to_s',
                      '  "my version"',
                      'end'
@@ -16,7 +16,7 @@ RSpec.describe Ducalis::StandardMethods do
   end
 
   it 'ignores if use defines simple ruby methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'def present',
                      '  "my version"',
                      'end'

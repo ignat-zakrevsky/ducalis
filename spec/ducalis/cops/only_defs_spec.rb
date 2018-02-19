@@ -7,7 +7,7 @@ RSpec.describe Ducalis::OnlyDefs do
   subject(:cop) { described_class.new }
 
   it 'ignores classes with one instance method' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  def initialize(task)',
                      '    # ...',
@@ -22,7 +22,7 @@ RSpec.describe Ducalis::OnlyDefs do
   end
 
   it 'ignores classes with mixed methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  def self.find(task)',
                      '    # ...',
@@ -37,7 +37,7 @@ RSpec.describe Ducalis::OnlyDefs do
   end
 
   it '[rule] raises error for class with ONLY class methods' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '',
                      '  def self.call(task)',
@@ -53,7 +53,7 @@ RSpec.describe Ducalis::OnlyDefs do
   end
 
   it 'raises error for class with ONLY class << self' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  class << self',
                      '    def call(task)',
@@ -70,7 +70,7 @@ RSpec.describe Ducalis::OnlyDefs do
   end
 
   it 'ignores instance methods mixed with ONLY class << self' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  class << self',
                      '    def call(task)',

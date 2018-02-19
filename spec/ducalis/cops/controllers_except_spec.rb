@@ -7,7 +7,7 @@ RSpec.describe Ducalis::ControllersExcept do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for `before_filters` with `except` method as array' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, except: [:index]',
                      '',
@@ -23,7 +23,7 @@ RSpec.describe Ducalis::ControllersExcept do
   end
 
   it 'raises for filters with many actions and only one `except` method' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, :load_me, except: %i[edit]',
                      '',
@@ -40,7 +40,7 @@ RSpec.describe Ducalis::ControllersExcept do
   end
 
   it 'ignores `before_filters` without arguments' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost',
                      '',

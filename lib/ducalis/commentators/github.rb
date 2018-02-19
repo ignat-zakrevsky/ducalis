@@ -3,7 +3,7 @@
 module Ducalis
   module Commentators
     class Github
-      STATUS = 'COMMENT'
+      STATUS = 'COMMENT'.freeze
       SIMILARITY_THRESHOLD = 0.8
 
       def initialize(config)

@@ -7,7 +7,7 @@ RSpec.describe Ducalis::RubocopDisable do
   subject(:cop) { described_class.new }
 
   it '[rule] raises on RuboCop disable comments' do
-    inspect_source(cop, [
+    inspect_source([
                      '# rubocop:disable Metrics/ParameterLists',
                      'def calculate(five, args, at, one, list); end'
                    ])
@@ -15,7 +15,7 @@ RSpec.describe Ducalis::RubocopDisable do
   end
 
   it 'ignores comment without RuboCop disabling' do
-    inspect_source(cop, [
+    inspect_source([
                      '# some meaningful comment',
                      'def calculate(five, args, at, one, list); end'
                    ])

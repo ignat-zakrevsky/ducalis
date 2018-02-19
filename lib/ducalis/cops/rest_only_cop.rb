@@ -17,7 +17,7 @@ module Ducalis
       | [About RESTful architecture](<https://confreaks.tv/videos/railsconf2017-in-relentless-pursuit-of-rest>)
     MESSAGE
 
-    WHITELIST = %i(index show new edit create update destroy).freeze
+    WHITELIST = %i[index show new edit create update destroy].freeze
 
     def on_def(node)
       return unless in_controller?

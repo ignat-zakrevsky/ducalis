@@ -7,7 +7,7 @@ RSpec.describe Ducalis::CaseMapping do
   subject(:cop) { described_class.new }
 
   it 'raises on case statements' do
-    inspect_source(cop, [
+    inspect_source([
                      'case grade',
                      'when "A"',
                      '  puts "Well done!"',

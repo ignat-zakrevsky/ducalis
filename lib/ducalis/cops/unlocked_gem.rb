@@ -17,6 +17,6 @@ module Ducalis
       end
     end
 
-    def_node_search :gem_declarations, '(send nil :gem (str _))'
+    def_node_search :gem_declarations, '(send _ :gem (str _))'
   end
 end

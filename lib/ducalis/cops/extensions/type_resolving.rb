@@ -1,18 +1,19 @@
 # frozen_string_literal: true
+
 module TypeResolving
-  MODELS_CLASS_NAMES = %w(
+  MODELS_CLASS_NAMES = %w[
     ApplicationRecord
     ActiveRecord::Base
-  ).freeze
+  ].freeze
 
-  WORKERS_SUFFIXES = %w(
+  WORKERS_SUFFIXES = %w[
     Worker
     Job
-  ).freeze
+  ].freeze
 
-  CONTROLLER_SUFFIXES = %w(
+  CONTROLLER_SUFFIXES = %w[
     Controller
-  ).freeze
+  ].freeze
 
   SERVICES_PATH = File.join('app', 'services')
 

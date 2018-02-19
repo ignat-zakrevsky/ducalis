@@ -9,7 +9,7 @@ RSpec.describe Ducalis::BlackListSuffix do
   before { allow(cop).to receive(:cop_config).and_return(cop_config) }
 
   it '[rule] raises on classes with suffixes from black list' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ListSorter',
                      'end'
                    ])
@@ -17,7 +17,7 @@ RSpec.describe Ducalis::BlackListSuffix do
   end
 
   it 'ignores classes with okish suffixes' do
-    inspect_source(cop, [
+    inspect_source([
                      'class SortedList',
                      'end'
                    ])
@@ -25,7 +25,7 @@ RSpec.describe Ducalis::BlackListSuffix do
   end
 
   it 'ignores classes with full match' do
-    inspect_source(cop, [
+    inspect_source([
                      'class Manager',
                      'end'
                    ])

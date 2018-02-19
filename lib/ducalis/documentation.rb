@@ -65,8 +65,8 @@ class SpecsProcessor < Parser::AST::Processor
 end
 
 class Documentation
-  SIGNAL_WORD = 'raises'
-  RULE_WORD = '[rule]'
+  SIGNAL_WORD = 'raises'.freeze
+  RULE_WORD = '[rule]'.freeze
 
   def call
     Dir[File.join(File.dirname(__FILE__), 'cops', '*.rb')].sort.map do |f|

@@ -6,6 +6,8 @@ require 'rspec/expectations'
 
 require 'ducalis'
 
+Dir['spec/support/**/*.rb'].each { |f| require f.sub('spec/', '') }
+
 RSpec.configure do |config|
   config.example_status_persistence_file_path = '.rspec_status'
   config.disable_monkey_patching!
@@ -28,3 +30,5 @@ RSpec::Matchers.define :raise_violation do |like, count: 1|
     cop.offenses.empty?
   end
 end
+
+CopHelper.prepend(CopHelperCast)

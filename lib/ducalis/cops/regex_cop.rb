@@ -37,9 +37,9 @@ module Ducalis
     ).freeze
 
     DETAILS = "Available regexes are:
-      #{SELF_DESCRIPTIVE.map { |name| "`#{name}`" }.join(', ')}"
+      #{SELF_DESCRIPTIVE.map { |name| "`#{name}`" }.join(', ')}".freeze
 
-    DEFAULT_EXAMPLE = 'some_example'
+    DEFAULT_EXAMPLE = 'some_example'.freeze
 
     def on_begin(node)
       not_defined_regexes(node).each do |regex|

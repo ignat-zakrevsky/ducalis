@@ -15,7 +15,7 @@ module Ducalis
       | You can read more [here](https://medium.com/planet-arkency/a61fd75ab2d3).
     MESSAGE
 
-    METHODS_BLACK_LIST = %i(
+    METHODS_BLACK_LIST = %i[
       after_commit
       after_create
       after_destroy
@@ -35,7 +35,7 @@ module Ducalis
       before_save
       before_update
       before_validation
-    ).freeze
+    ].freeze
 
     def on_send(node)
       return unless in_model?

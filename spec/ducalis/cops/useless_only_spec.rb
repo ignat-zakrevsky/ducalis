@@ -7,7 +7,7 @@ RSpec.describe Ducalis::UselessOnly do
   subject(:cop) { described_class.new }
 
   it '[rule] raises for `before_filters` with only one method' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, only: [:index]',
                      '',
@@ -22,7 +22,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'raises for `before_filters` with only one method as keyword array' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, only: %i[index]',
                      '',
@@ -37,7 +37,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'raises for `before_filters` with many actions and only one method' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, :load_me, only: %i[index]',
                      '',
@@ -53,7 +53,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'raises for `before_filters` with only one method as argument' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, only: :index',
                      '',
@@ -68,7 +68,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'ignores `before_filters` without arguments' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost',
                      '',
@@ -83,7 +83,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'ignores `before_filters` with `only` and many arguments' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, only: %i[index show]',
                      '',
@@ -99,7 +99,7 @@ RSpec.describe Ducalis::UselessOnly do
   end
 
   it 'ignores `before_filters` with `except` and one argument' do
-    inspect_source(cop, [
+    inspect_source([
                      'class ProductsController < ApplicationController',
                      '  before_filter :update_cost, except: %i[index]',
                      '',

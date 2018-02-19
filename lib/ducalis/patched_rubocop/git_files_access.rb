@@ -5,7 +5,7 @@ require 'singleton'
 
 module PatchedRubocop
   class GitFilesAccess
-    DELETED = 'deleted'
+    DELETED = 'deleted'.freeze
 
     include PatchedRubocop::Diffs
     include Singleton

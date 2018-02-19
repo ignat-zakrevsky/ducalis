@@ -5,7 +5,7 @@ require 'logger'
 module Ducalis
   module Commentators
     class Console
-      DOCUMENTATION_PATH = 'https://ducalis-rb.github.io/'
+      DOCUMENTATION_PATH = 'https://ducalis-rb.github.io/'.freeze
 
       def initialize(config)
         @config = config

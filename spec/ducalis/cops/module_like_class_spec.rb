@@ -8,7 +8,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
   let(:cop_config) { { 'AllowedIncludes' => ['Singleton'] } }
 
   it '[rule] raises for class without constructor but accepts the same args' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  def initialize(customer)',
                      '    # ...',
@@ -33,7 +33,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
   end
 
   it '[rule] raises for class with only one public method with args' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  def approve(task)',
                      '    # ...',
@@ -51,7 +51,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
 
   it 'ignores classes with custom includes' do
     allow(cop).to receive(:cop_config).and_return(cop_config)
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  include Singleton',
                      '',
@@ -64,7 +64,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
   end
 
   it 'ignores classes with inheritance' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal < BasicJournal',
                      '  def approve(task)',
                      '    # ...',
@@ -81,7 +81,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
   end
 
   it 'ignores classes with one method and initializer' do
-    inspect_source(cop, [
+    inspect_source([
                      'class TaskJournal',
                      '  def initialize(task)',
                      '    # ...',

@@ -12,7 +12,7 @@ module Ducalis
       | It will increase [bus-factor](<https://en.wikipedia.org/wiki/Bus_factor>).
     MESSAGE
 
-    ALLOWED_KEYS = %w(require group :require :group).freeze
+    ALLOWED_KEYS = %w[require group :require :group].freeze
 
     def investigate(processed_source)
       return unless processed_source.ast
@@ -27,7 +27,7 @@ module Ducalis
 
     private
 
-    def_node_search :gem_declarations, '(send nil :gem str #allowed_args?)'
+    def_node_search :gem_declarations, '(send _ :gem str #allowed_args?)'
 
     def commented?(processed_source, node)
       processed_source.comments

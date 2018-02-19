@@ -7,7 +7,7 @@ RSpec.describe Ducalis::OptionsArgument do
   subject(:cop) { described_class.new }
 
   it '[rule] raises if method accepts default options argument' do
-    inspect_source(cop, [
+    inspect_source([
                      'def generate(document, options = {})',
                      '  format = options.delete(:format)',
                      '  limit = options.delete(:limit) || 20',
@@ -18,7 +18,7 @@ RSpec.describe Ducalis::OptionsArgument do
   end
 
   it '[rule] raises if method accepts options argument' do
-    inspect_source(cop, [
+    inspect_source([
                      'def log(record, options)',
                      '  # ...',
                      'end'
@@ -27,7 +27,7 @@ RSpec.describe Ducalis::OptionsArgument do
   end
 
   it 'raises if method accepts args argument' do
-    inspect_source(cop, [
+    inspect_source([
                      'def log(record, args)',
                      '  # ...',
                      'end'
@@ -36,7 +36,7 @@ RSpec.describe Ducalis::OptionsArgument do
   end
 
   it 'ignores passing options with split operator' do
-    inspect_source(cop, [
+    inspect_source([
                      'def generate(document, format:, limit: 20, **options)',
                      '  [format, limit, options]',
                      'end'
