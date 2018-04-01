@@ -21,6 +21,21 @@ RSpec.describe Ducalis::UselessOnly do
     expect(cop).to raise_violation(/inline/)
   end
 
+  it '[rule] better to inline calls for instead of moving it to only' do
+    inspect_source([
+                     'class ProductsController < ApplicationController',
+                     '  def index',
+                     '    update_cost',
+                     '  end',
+                     '',
+                     '  private',
+                     '',
+                     '  def update_cost; end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises for `before_filters` with only one method as keyword array' do
     inspect_source([
                      'class ProductsController < ApplicationController',
@@ -79,7 +94,7 @@ RSpec.describe Ducalis::UselessOnly do
                      '  def update_cost; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores `before_filters` with `only` and many arguments' do
@@ -95,7 +110,7 @@ RSpec.describe Ducalis::UselessOnly do
                      '  def update_cost; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores `before_filters` with `except` and one argument' do
@@ -110,6 +125,6 @@ RSpec.describe Ducalis::UselessOnly do
                      '  def update_cost; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

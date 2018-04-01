@@ -17,7 +17,7 @@ RSpec.describe Ducalis::OptionsArgument do
     expect(cop).to raise_violation(/keyword arguments/)
   end
 
-  it '[rule] raises if method accepts options argument' do
+  it 'raises if method accepts a options argument' do
     inspect_source([
                      'def log(record, options)',
                      '  # ...',
@@ -35,12 +35,12 @@ RSpec.describe Ducalis::OptionsArgument do
     expect(cop).to raise_violation(/keyword arguments/)
   end
 
-  it 'ignores passing options with split operator' do
+  it '[rule] better to pass options with the split operator' do
     inspect_source([
                      'def generate(document, format:, limit: 20, **options)',
                      '  [format, limit, options]',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

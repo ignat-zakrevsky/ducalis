@@ -11,7 +11,12 @@ RSpec.describe Ducalis::FetchExpression do
     expect(cop).to raise_violation(/fetch/)
   end
 
-  it '[rule] raises on using ternary operator with default' do
+  it '[rule] better to use fetch operator' do
+    inspect_source('params.fetch(:to) { destination }')
+    expect(cop).not_to raise_violation
+  end
+
+  it 'raises on using ternary operator with default' do
     inspect_source('params[:to] ? params[:to] : destination')
     expect(cop).to raise_violation(/fetch/)
   end

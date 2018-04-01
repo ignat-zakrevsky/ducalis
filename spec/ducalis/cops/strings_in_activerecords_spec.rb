@@ -14,8 +14,8 @@ RSpec.describe Ducalis::StringsInActiverecords do
     expect(cop).to raise_violation(/before_save/)
   end
 
-  it 'ignores lambda if argument' do
+  it '[rule] better to use lambda as argument' do
     inspect_source('validates :file, if: -> { remote_url.blank? }')
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

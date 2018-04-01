@@ -16,12 +16,12 @@ RSpec.describe Ducalis::BlackListSuffix do
     expect(cop).to raise_violation(/class suffixes/)
   end
 
-  it 'ignores classes with okish suffixes' do
+  it '[rule] better to have names which map on business-logic' do
     inspect_source([
                      'class SortedList',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores classes with full match' do
@@ -29,6 +29,6 @@ RSpec.describe Ducalis::BlackListSuffix do
                      'class Manager',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

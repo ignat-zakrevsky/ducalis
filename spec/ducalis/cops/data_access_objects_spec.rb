@@ -21,6 +21,44 @@ RSpec.describe Ducalis::DataAccessObjects do
     expect(cop).to raise_violation(/Data Access/, count: 2)
   end
 
+  it '[rule] better to use DAO objects' do
+    inspect_source([
+                     'class ProductsController < ApplicationController',
+                     '  def edit',
+                     '    session_time.start!',
+                     '  end',
+                     '',
+                     '  def update',
+                     '    @time = session_time.period',
+                     '  end',
+                     '',
+                     '  private',
+                     '',
+                     '  def session_time',
+                     '    @_session_time ||= SessionTime.new(session)',
+                     '  end',
+                     'end',
+                     '',
+                     'class SessionTime',
+                     '  KEY = :start_time',
+                     '',
+                     '  def initialize(session)',
+                     '    @session = session',
+                     '    @current_time = Time.now',
+                     '  end',
+                     '',
+                     '  def start!',
+                     '    @session[KEY] = @current_time',
+                     '  end',
+                     '',
+                     '  def period',
+                     '    Date.parse(@session[KEY]) - @current_time',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises on working with `cookies` object' do
     inspect_source([
                      'class HomeController < ApplicationController',
@@ -91,6 +129,6 @@ RSpec.describe Ducalis::DataAccessObjects do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

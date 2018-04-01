@@ -17,6 +17,17 @@ RSpec.describe Ducalis::PossibleTap do
     expect(cop).to raise_violation(/tap/)
   end
 
+  it '[rule] better to use tap to increase code readability' do
+    inspect_source([
+                     'def load_group',
+                     '  channel.groups.find(params[:group_id]) do |group|',
+                     '    authorize group, :edit?',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises for methods with instance variable changes and return' do
     inspect_source([
                      'def load_group',
@@ -74,7 +85,7 @@ RSpec.describe Ducalis::PossibleTap do
                      'def edit',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores methods which body is just call' do
@@ -83,7 +94,7 @@ RSpec.describe Ducalis::PossibleTap do
                      '  Service.cost_sum(cost_field)',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores methods which return some statement' do
@@ -95,7 +106,7 @@ RSpec.describe Ducalis::PossibleTap do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it '[bugfix] calling methods on possible tap variable' do
@@ -105,7 +116,7 @@ RSpec.describe Ducalis::PossibleTap do
                      '  Auditor::Message.new(message.process, objects)',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it '[bugfix] methods which simply returns instance var without changes' do
@@ -114,7 +125,7 @@ RSpec.describe Ducalis::PossibleTap do
                      '  @employee',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it '[bugfix] methods which ends with if condition' do
@@ -125,7 +136,7 @@ RSpec.describe Ducalis::PossibleTap do
                      '  self.complete_at = nil unless value',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it '[bugfix] methods with args without children nodes' do
@@ -136,6 +147,6 @@ RSpec.describe Ducalis::PossibleTap do
                      '    .order("admin_users.created_at DESC")',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

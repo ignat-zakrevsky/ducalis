@@ -15,12 +15,12 @@ RSpec.describe Ducalis::StandardMethods do
     expect(cop).to raise_violation(/redefine standard/)
   end
 
-  it 'ignores if use defines simple ruby methods' do
+  it '[rule] better to define non-default ruby methods' do
     inspect_source([
                      'def present',
                      '  "my version"',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

@@ -10,10 +10,23 @@ RSpec.describe Ducalis::RestOnlyCop do
     inspect_source([
                      'class ProductsController < ApplicationController',
                      '  def index; end',
-                     '  def recalculate; end',
+                     '  def order; end',
                      'end'
                    ])
     expect(cop).to raise_violation(/REST/)
+  end
+
+  it '[rule] better to use only REST methods and create new controllers' do
+    inspect_source([
+                     'class ProductsController < ApplicationController',
+                     '  def index; end',
+                     'end',
+                     '',
+                     'class OrdersController < ApplicationController',
+                     '  def create; end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores controllers with private non-REST methods' do
@@ -26,7 +39,7 @@ RSpec.describe Ducalis::RestOnlyCop do
                      '  def recalculate; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores controllers with only REST methods' do
@@ -41,7 +54,7 @@ RSpec.describe Ducalis::RestOnlyCop do
                      '  def destroy; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores non-controllers with non-REST methods' do
@@ -51,6 +64,6 @@ RSpec.describe Ducalis::RestOnlyCop do
                      '  def recalculate; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

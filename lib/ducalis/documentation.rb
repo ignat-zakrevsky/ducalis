@@ -66,15 +66,29 @@ end
 
 class Documentation
   SIGNAL_WORD = 'raises'.freeze
+  PREFER_WORD = 'better'.freeze
   RULE_WORD = '[rule]'.freeze
 
+  def cop_rules
+    cops.map do |file|
+      rules = spec_cases_for(file).select do |desc, _code|
+        desc.include?(RULE_WORD)
+      end
+      [file, rules]
+    end
+  end
+
   def call
-    Dir[File.join(File.dirname(__FILE__), 'cops', '*.rb')].sort.map do |f|
+    cops.map do |f|
       present_cop(klass_const_for(f), spec_cases_for(f))
     end.flatten.join("\n")
   end
 
   private
+
+  def cops
+    Dir[File.join(File.dirname(__FILE__), 'cops', '*.rb')].sort
+  end
 
   def present_cop(klass, specs)
     [

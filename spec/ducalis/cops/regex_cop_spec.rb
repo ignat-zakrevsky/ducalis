@@ -16,6 +16,14 @@ RSpec.describe Ducalis::RegexCop do
     expect(cop).to raise_violation(/puts "hi" if name =~ CONST_NAME/)
   end
 
+  it '[rule] better to move regexes to constants with examples' do
+    inspect_source([
+                     'FOUR_NUMBERS_REGEX = /\d{4}/ # 1234',
+                     'puts "match" if number =~ FOUR_NUMBERS_REGEX'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises if somewhere in code used regex but defined another const' do
     inspect_source([
                      'ANOTHER_CONST = /ivan/',
@@ -30,15 +38,7 @@ RSpec.describe Ducalis::RegexCop do
                      'name = "john"',
                      'puts "hi" if name =~ REGEX'
                    ])
-    expect(cop).to_not raise_violation
-  end
-
-  it 'ignores freeze calling' do
-    inspect_source([
-                     'REGEX = /john/.freeze',
-                     'puts "hi" if name =~ REGEX'
-                   ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores named ruby constants' do
@@ -46,7 +46,7 @@ RSpec.describe Ducalis::RegexCop do
                      'name = "john"',
                      'puts "hi" if name =~ /[[:alpha:]]/'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores dynamic regexes' do
@@ -54,7 +54,7 @@ RSpec.describe Ducalis::RegexCop do
                      'name = "john"',
                      'puts "hi" if name =~ /.{#{' + 'name.length}}/'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'rescue dynamic regexes dynamic regexes' do

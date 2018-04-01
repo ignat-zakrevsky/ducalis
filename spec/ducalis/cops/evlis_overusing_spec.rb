@@ -7,11 +7,28 @@ RSpec.describe Ducalis::EvlisOverusing do
   let(:ruby_version) { 2.3 }
   subject(:cop) { described_class.new }
 
-  it '[rule] raises on multiple safe operator callings' do
+  it 'raises on multiple safe operator callings' do
     if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new(ruby_version.to_s)
       inspect_source('user&.person&.full_name')
       expect(cop).to raise_violation(/overusing/)
     end
+  end
+
+  it '[rule] better to use NullObjects' do
+    inspect_source([
+                     'class NullManufacturer',
+                     '  def contact',
+                     '    "No Manufacturer"',
+                     '  end',
+                     'end',
+                     '',
+                     'def manufacturer',
+                     '  product.manufacturer || NullManufacturer.new',
+                     'end',
+                     '',
+                     'manufacturer.contact'
+                   ])
+    expect(cop).not_to raise_violation
   end
 
   it '[rule] raises on multiple try callings' do

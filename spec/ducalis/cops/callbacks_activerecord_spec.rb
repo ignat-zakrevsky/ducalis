@@ -15,12 +15,38 @@ RSpec.describe Ducalis::CallbacksActiverecord do
     expect(cop).to raise_violation(/callbacks/)
   end
 
+  it '[rule] better to use builder classes for complex workflows' do
+    inspect_source([
+                     'class Product < ActiveRecord::Base',
+                     'end',
+                     '',
+                     'class ProductCreation',
+                     '  def initialize(attributes)',
+                     '    @attributes = attributes',
+                     '  end',
+                     '',
+                     '  def create',
+                     '    Product.create(@attributes).tap do |product|',
+                     '      generate_code(product)',
+                     '    end',
+                     '  end',
+                     '',
+                     '  private',
+                     '',
+                     '  def generate_code(product)',
+                     '    # logic goes here',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'ignores non-ActiveRecord classes which contains callbacks' do
     inspect_source([
                      'class Product < BasicProduct',
                      '  before_create :generate_code',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

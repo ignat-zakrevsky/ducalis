@@ -11,6 +11,11 @@ RSpec.describe Ducalis::ProtectedScopeCop do
     expect(cop).to raise_violation(/non-protected scope/)
   end
 
+  it '[rule] better to search records on protected scopes' do
+    inspect_source('current_user.groups.find(8)')
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises if AR search was called even for chain of calls' do
     inspect_source('Group.includes(:profiles).find(8)')
     expect(cop).to raise_violation(/non-protected scope/)
@@ -35,7 +40,7 @@ RSpec.describe Ducalis::ProtectedScopeCop do
 
   it 'ignores find method with passed block' do
     inspect_source('MAPPING.find { |x| x == 42 }')
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores find method with passed multiline block' do
@@ -44,6 +49,6 @@ RSpec.describe Ducalis::ProtectedScopeCop do
                      '  x == 42',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

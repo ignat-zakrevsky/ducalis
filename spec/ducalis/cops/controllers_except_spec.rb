@@ -22,6 +22,22 @@ RSpec.describe Ducalis::ControllersExcept do
     expect(cop).to raise_violation(/explicit/)
   end
 
+  it '[rule] better use `only` for `before_filters`' do
+    inspect_source([
+                     'class ProductsController < ApplicationController',
+                     '  before_filter :update_cost, only: [:edit]',
+                     '',
+                     '  def index; end',
+                     '  def edit; end',
+                     '',
+                     '  private',
+                     '',
+                     '  def update_cost; end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises for filters with many actions and only one `except` method' do
     inspect_source([
                      'class ProductsController < ApplicationController',
@@ -51,6 +67,6 @@ RSpec.describe Ducalis::ControllersExcept do
                      '  def update_cost; end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

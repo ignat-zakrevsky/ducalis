@@ -16,18 +16,18 @@ RSpec.describe Ducalis::KeywordDefaults do
     expect(cop).to raise_violation(/keyword arguments/)
   end
 
-  it 'ignores if method definition contains default values through keywords' do
+  it '[rule] better to pass default values through keywords' do
     inspect_source('def calculate(step, index, dry: true); end')
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores for methods without arguments' do
     inspect_source('def calculate_amount; end')
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores for class methods without arguments' do
     inspect_source('def self.calculate_amount; end')
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

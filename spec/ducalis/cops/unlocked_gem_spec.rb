@@ -11,13 +11,13 @@ RSpec.describe Ducalis::UnlockedGem do
     expect(cop).to raise_violation(/lock gem/)
   end
 
-  it '[rule] ignores gems with locked versions' do
+  it '[rule] better to lock gem versions' do
     inspect_source([
                      "gem 'pry', '~> 0.10', '>= 0.10.0'",
                      "gem 'rake', '~> 12.1'",
                      "gem 'thor', '= 0.20.0'",
                      "gem 'rspec', github: 'rspec/rspec'"
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

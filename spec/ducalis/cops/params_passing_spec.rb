@@ -17,6 +17,17 @@ RSpec.describe Ducalis::ParamsPassing do
     expect(cop).to raise_violation(/preprocessed params/)
   end
 
+  it '[rule] better to pass permitted params' do
+    inspect_source([
+                     'class ProductsController < ApplicationController',
+                     '  def index',
+                     '    Record.new(record_params).log',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises if user pass `params` as any argument from controller' do
     inspect_source([
                      'class ProductsController < ApplicationController',
@@ -47,7 +58,7 @@ RSpec.describe Ducalis::ParamsPassing do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores passing processed `params`' do
@@ -58,7 +69,7 @@ RSpec.describe Ducalis::ParamsPassing do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores passing `params` from `arcane` gem' do
@@ -69,6 +80,6 @@ RSpec.describe Ducalis::ParamsPassing do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

@@ -16,6 +16,16 @@ RSpec.describe Ducalis::MultipleTimes do
     expect(cop).to raise_violation(/multiple/, count: 2)
   end
 
+  it '[rule] better to inject time as parameter to the method or constructor' do
+    inspect_source([
+                     'def initialize(plan, current_date: Date.current)',
+                     '  @year = plan[:year] || current_date.year',
+                     '  @quarter = plan[:quarter] || quarter(current_date)',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it 'raises if method contains mix of different time-related calls' do
     inspect_source([
                      'def initialize(plan)',

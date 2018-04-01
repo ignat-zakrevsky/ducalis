@@ -18,7 +18,7 @@ RSpec.describe Ducalis::OnlyDefs do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores classes with mixed methods' do
@@ -33,7 +33,7 @@ RSpec.describe Ducalis::OnlyDefs do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it '[rule] raises error for class with ONLY class methods' do
@@ -50,6 +50,21 @@ RSpec.describe Ducalis::OnlyDefs do
                      'end'
                    ])
     expect(cop).to raise_violation(/class methods/)
+  end
+
+  it '[rule] better to use instance methods' do
+    inspect_source([
+                     'class TaskJournal',
+                     '  def call(task)',
+                     '    # ...',
+                     '  end',
+                     '',
+                     '  def find(args)',
+                     '    # ...',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
   end
 
   it 'raises error for class with ONLY class << self' do
@@ -83,6 +98,6 @@ RSpec.describe Ducalis::OnlyDefs do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

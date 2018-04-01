@@ -32,6 +32,31 @@ RSpec.describe Ducalis::ModuleLikeClass do
     expect(cop).to raise_violation(/pass `task`, `estimate`/)
   end
 
+  it '[rule] better to pass common arguments to the constructor' do
+    inspect_source([
+                     'class TaskJournal',
+                     '  def initialize(customer, task, estimate)',
+                     '    # ...',
+                     '  end',
+                     '',
+                     '  def approve(options)',
+                     '    # ...',
+                     '  end',
+                     '',
+                     '  def decline(user, details)',
+                     '    # ...',
+                     '  end',
+                     '',
+                     '  private',
+                     '',
+                     '  def log(record)',
+                     '    # ...',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it '[rule] raises for class with only one public method with args' do
     inspect_source([
                      'class TaskJournal',
@@ -60,7 +85,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores classes with inheritance' do
@@ -77,7 +102,7 @@ RSpec.describe Ducalis::ModuleLikeClass do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores classes with one method and initializer' do
@@ -92,6 +117,6 @@ RSpec.describe Ducalis::ModuleLikeClass do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end

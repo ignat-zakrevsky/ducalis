@@ -19,6 +19,23 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
     expect(cop).to raise_violation(/instance/)
   end
 
+  it '[rule] better to implicitly assign variables in public methods' do
+    inspect_source([
+                     'class EmployeesController < ApplicationController',
+                     '  def index',
+                     '    @employee = load_employee',
+                     '  end',
+                     '',
+                     '  private',
+                     '',
+                     '  def load_employee',
+                     '    Employee.find(params[:id])',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
   it '[rule] raises for memoization variables in controllers private methods' do
     inspect_source([
                      'class EmployeesController < ApplicationController',
@@ -32,7 +49,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
     expect(cop).to raise_violation(/underscore/)
   end
 
-  it '[rule] ignores memoization variables in private methods with _' do
+  it '[rule] better to mark private methods memo variables with "_"' do
     inspect_source([
                      'class EmployeesController < ApplicationController',
                      '  private',
@@ -42,7 +59,7 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 
   it 'ignores assigning instance variables in controllers public methods' do
@@ -59,6 +76,6 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
                      '  end',
                      'end'
                    ])
-    expect(cop).to_not raise_violation
+    expect(cop).not_to raise_violation
   end
 end
