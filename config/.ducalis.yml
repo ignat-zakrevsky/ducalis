@@ -120,6 +120,7 @@ Ducalis/ModuleLikeClass:
     - Sidekiq::Worker
     - Singleton
     - ActiveModel::Model
+    - Virtus.model
 
 Ducalis/DescriptiveBlockNames:
   Enabled: true
