@@ -13,6 +13,8 @@ module Ducalis
       | %<source>s
       | ```
 
+      | If your hash contains `nil` or `false` values and you want to treat them not like an actual values you should preliminarily remove this values from hash.
+      | You can use `compact` (in case if you do not want to ignore `false` values) or `keep_if { |key, value| value }` (if you want to ignore all `false` and `nil` values).
     MESSAGE
 
     def investigate(processed_source)
