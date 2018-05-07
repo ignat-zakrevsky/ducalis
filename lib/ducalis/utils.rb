@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
+require 'octokit'
+
 module Ducalis
   module Utils
     module_function
 
     def octokit
-      @octokit ||= Octokit::Client.new(access_token: ENV.fetch('GITHUB_TOKEN'))
+      @octokit ||= begin
+        token = ENV.fetch('GITHUB_TOKEN') { raise MissingToken }
+        Octokit::Client.new(access_token: token)
+      end
     end
 
     def similarity(string1, string2)

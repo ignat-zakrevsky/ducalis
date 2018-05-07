@@ -2,11 +2,12 @@
 
 module CopHelperCast
   def inspect_source(source, file = nil)
-    if Gem::Version.new(RuboCop::Version.version) >
-       RubocopCast::OLD_RUBOCOP_VERSION
+    if PatchedRubocop::CURRENT_VERSION > PatchedRubocop::ADAPTED_VERSION
       super(source, file)
     else
       super(cop, source, file)
     end
   end
 end
+
+CopHelper.prepend(CopHelperCast)

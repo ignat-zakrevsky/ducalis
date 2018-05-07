@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+module PatchedRubocop
+  CURRENT_VERSION = Gem::Version.new(RuboCop::Version.version)
+  ADAPTED_VERSION = Gem::Version.new('0.46.0')
+end
+
 module RuboCop
   class ConfigLoader
     ::Ducalis::Utils.silence_warnings { DOTFILE = ::Ducalis::DOTFILE }
@@ -25,16 +30,5 @@ module RuboCop
   end
 end
 
-module PatchedRubocop
-  MODES = {
-    branch: ->(git)  { git.diff('origin/master') },
-    index:  ->(git)  { git.diff('HEAD') },
-    all:    ->(_git) { [] }
-  }.freeze
-
-  module_function
-
-  def configure!(flag)
-    GitFilesAccess.instance.flag = flag
-  end
-end
+RuboCop::Cop::Cop.prepend(PatchedRubocop::CopCast)
+PatchedRubocop::Inject.defaults!

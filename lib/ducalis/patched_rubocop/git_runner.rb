@@ -5,7 +5,7 @@ module PatchedRubocop
     def inspect_file(file)
       offenses, updated = super
       offenses = offenses.select do |offense|
-        GitFilesAccess.instance.changed?(file.path, offense.line)
+        GitAccess.instance.for(file.path).changed?(offense.line)
       end
 
       [offenses, updated]

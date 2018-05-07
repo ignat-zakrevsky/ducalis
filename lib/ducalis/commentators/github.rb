@@ -6,29 +6,31 @@ module Ducalis
       STATUS = 'COMMENT'.freeze
       SIMILARITY_THRESHOLD = 0.8
 
-      def initialize(config)
-        @config = config
+      def initialize(repo, id)
+        @repo = repo
+        @id = id
       end
 
-      def call(violations)
-        comments = violations.map do |violation|
-          next if commented?(violation)
-          generate_comment(violation)
-        end.compact
+      def call(offenses)
+        comments = offenses.reject { |offense| already_commented?(offense) }
+                           .map { |offense| present_offense(offense) }
+
         return if comments.empty?
+
         Utils.octokit
-             .create_pull_request_review(@config.repo, @config.id,
+             .create_pull_request_review(@repo, @id,
                                          event: STATUS, comments: comments)
       end
 
       private
 
-      def commented?(violation)
-        commented_violations.find do |commented_violation|
+      def already_commented?(offense)
+        current_offence = present_offense(offense)
+        commented_offenses.find do |commented_offense|
           [
-            violation.filename == commented_violation[:path],
-            violation.line.patch_position == commented_violation[:position],
-            similar_messages?(violation.message, commented_violation[:body])
+            current_offence[:path] == commented_offense[:path],
+            current_offence[:position] == commented_offense[:position],
+            similar_messages?(current_offence[:body], commented_offense[:body])
           ].all?
         end
       end
@@ -38,17 +40,20 @@ module Ducalis
           Utils.similarity(message, body) > SIMILARITY_THRESHOLD
       end
 
-      def commented_violations
-        @commented_violations ||=
-          Utils.octokit.pull_request_comments(@config.repo, @config.id)
+      def present_offense(offense)
+        {
+          body: offense.message,
+          path: diff_for(offense).path,
+          position: diff_for(offense).patch_line(offense.line)
+        }
       end
 
-      def generate_comment(violation)
-        {
-          body: violation.message,
-          path: violation.filename,
-          position: violation.line.patch_position
-        }
+      def diff_for(offense)
+        GitAccess.instance.for(offense.location.source_buffer.name)
+      end
+
+      def commented_offenses
+        @_commented_offenses ||= Utils.octokit.pull_request_comments(@repo, @id)
       end
     end
   end

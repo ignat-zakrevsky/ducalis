@@ -1,0 +1,22 @@
+diff --git a/lib/ducalis/patch.rb b/lib/ducalis/patch.rb
+index f72e6cc..b7db6ab 100644
+--- a/lib/ducalis/patch.rb
++++ b/lib/ducalis/patch.rb
+@@ -2,7 +2,6 @@ module Ducalis
+   class Patch
+     RANGE_INFORMATION_LINE = /^@@ .+\+(?<line_number>\d+),/
+     MODIFIED_LINE = /^\+(?!\+|\+)/
+     NOT_REMOVED_LINE = /^[^-]/
+
+     def initialize(patch)
+@@ -14,8 +13,8 @@ module Ducalis
+
+     def changed_lines
+       line_number = 0
+-      patch_lines.each_with_object([])
+-                 .with_index do |(content, lines), patch_position|
++      patch_lines.inject([], 0)
++        .with_index do |patch_position, lines, content|
+         case content
+         when RANGE_INFORMATION_LINE
+           line_number = Regexp.last_match[:line_number].to_i
