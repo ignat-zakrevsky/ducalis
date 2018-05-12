@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/module_like_class'
 
@@ -115,6 +117,15 @@ RSpec.describe Ducalis::ModuleLikeClass do
                      '  def call(args)',
                      '    # ...',
                      '  end',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works for classes with only one method in body' do
+    inspect_source([
+                     'class TaskJournal',
+                     ' def call; end',
                      'end'
                    ])
     expect(cop).not_to raise_violation

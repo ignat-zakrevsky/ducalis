@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/black_list_suffix'
 
@@ -25,6 +27,15 @@ RSpec.describe Ducalis::BlackListSuffix do
   end
 
   it 'ignores classes with full match' do
+    inspect_source([
+                     'class Manager',
+                     'end'
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works with empty config' do
+    allow(cop).to receive(:cop_config).and_return({})
     inspect_source([
                      'class Manager',
                      'end'

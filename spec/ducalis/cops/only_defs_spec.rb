@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/only_defs'
 
@@ -82,6 +84,21 @@ RSpec.describe Ducalis::OnlyDefs do
                      'end'
                    ])
     expect(cop).to raise_violation(/class methods/)
+  end
+
+  it 'ignores inherited classes' do
+    inspect_source([
+                     'class TaskJournal < BasicJournal',
+                     '  def self.call(task)',
+                     '    # ...',
+                     '  end',
+                     '',
+                     '  def self.find(args)',
+                     '    # ...',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
   end
 
   it 'ignores instance methods mixed with ONLY class << self' do

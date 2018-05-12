@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/raise_without_error_class'
 

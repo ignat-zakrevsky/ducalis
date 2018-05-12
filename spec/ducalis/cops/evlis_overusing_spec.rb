@@ -1,10 +1,19 @@
 # frozen_string_literal: true
 
+ELVIS_SUPPORT_VERSION = 2.3
+
+SingleCov.covered! uncovered:
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new(ELVIS_SUPPORT_VERSION)
+    0
+  else
+    2 # on_csend method will be never called on Ruby < 2.3 =(
+  end
+
 require 'spec_helper'
 require './lib/ducalis/cops/evlis_overusing'
 
 RSpec.describe Ducalis::EvlisOverusing do
-  let(:ruby_version) { 2.3 }
+  let(:ruby_version) { ELVIS_SUPPORT_VERSION }
   subject(:cop) { described_class.new }
 
   it 'raises on multiple safe operator callings' do

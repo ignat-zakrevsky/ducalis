@@ -35,8 +35,8 @@ class SpecsProcessor < Parser::AST::Processor
 
   def source_code(node)
     prepare_code(node).tap do |code|
-      code.shift if code.first.empty?
-      code.pop if code.last.empty?
+      code.shift if code.first.to_s.empty?
+      code.pop if code.last.to_s.empty?
     end
   end
 

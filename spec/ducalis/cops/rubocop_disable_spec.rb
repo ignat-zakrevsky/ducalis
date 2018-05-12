@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/rubocop_disable'
 
@@ -24,6 +26,11 @@ RSpec.describe Ducalis::RubocopDisable do
                      '# some meaningful comment',
                      'def calculate(five, args, at, one, list); end'
                    ])
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works for empty file' do
+    inspect_source('')
     expect(cop).not_to raise_violation
   end
 end

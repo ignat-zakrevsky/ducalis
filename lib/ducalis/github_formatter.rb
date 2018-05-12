@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GithubFormatter < RuboCop::Formatter::BaseFormatter
+  attr_reader :all
+
   def started(_target_files)
     @all = []
   end

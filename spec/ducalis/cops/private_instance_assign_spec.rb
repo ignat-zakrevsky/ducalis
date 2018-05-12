@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/private_instance_assign'
 
@@ -60,6 +62,19 @@ RSpec.describe Ducalis::PrivateInstanceAssign do
                      'end'
                    ])
     expect(cop).not_to raise_violation
+  end
+
+  it 'ignores non-controller methods' do
+    inspect_source([
+                     'class CatalogCollection',
+                     '  private',
+                     '',
+                     '  def catalog',
+                     '    @catalog = Catalog.new',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
   end
 
   it 'ignores assigning instance variables in controllers public methods' do

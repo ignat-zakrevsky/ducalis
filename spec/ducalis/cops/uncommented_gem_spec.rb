@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/uncommented_gem.rb'
 
@@ -52,6 +54,19 @@ RSpec.describe Ducalis::UncommentedGem do
         "gem 'wirble', :group => :development"
       ]
     )
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works for gems without version' do
+    inspect_source([
+                     "gem 'rake'",
+                     "gem 'rake'"
+                   ])
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works for empty gemfile' do
+    inspect_source('')
     expect(cop).not_to raise_violation
   end
 end

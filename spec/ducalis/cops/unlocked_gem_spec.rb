@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/unlocked_gem'
 
@@ -18,6 +20,11 @@ RSpec.describe Ducalis::UnlockedGem do
                      "gem 'thor', '= 0.20.0'",
                      "gem 'rspec', github: 'rspec/rspec'"
                    ])
+    expect(cop).not_to raise_violation
+  end
+
+  it 'works for empty gemfile' do
+    inspect_source('')
     expect(cop).not_to raise_violation
   end
 end

@@ -4,9 +4,9 @@ require 'bundler/setup'
 require 'rubocop/rspec/support'
 require 'rspec/expectations'
 
-require 'ducalis'
-
 Dir['spec/support/**/*.rb'].each { |f| require f.sub('spec/', '') }
+
+require 'ducalis'
 
 RSpec.configure do |config|
   config.example_status_persistence_file_path = '.rspec_status'

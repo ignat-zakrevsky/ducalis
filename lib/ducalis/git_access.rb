@@ -17,7 +17,8 @@ class GitAccess
 
   attr_accessor :flag, :repo, :id
 
-  def store_pull_request!(repo, id)
+  def store_pull_request!(info)
+    repo, id = info
     self.repo = repo
     self.id = id
   end
@@ -50,12 +51,11 @@ class GitAccess
   end
 
   def default_value
-    raise MissingGit unless flag.nil?
+    raise Ducalis::MissingGit unless flag.nil?
     []
   end
 
   def find(path)
-    return NilDiff.new(nil, path) if changes.empty?
-    changes.find { |diff| diff.path == path }
+    changes.find { |diff| diff.path == path } || NilDiff.new(nil, path)
   end
 end

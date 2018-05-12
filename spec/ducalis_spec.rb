@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'ducalis/documentation'
 
 RSpec.describe Ducalis do

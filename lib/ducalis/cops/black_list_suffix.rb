@@ -5,7 +5,7 @@ require 'rubocop'
 module Ducalis
   class BlackListSuffix < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
-      | Please, avoid using of class suffixes like `Meneger`, `Client` and so on. If it has no parts, change the name of the class to what each object is managing.
+      | Please, avoid using of class suffixes like `Manager`, `Client` and so on. If it has no parts, change the name of the class to what each object is managing.
 
       | It's ok to use Manager as subclass of Person, which is there to refine a type of personal that has management behavior to it.
     MESSAGE
@@ -24,7 +24,7 @@ module Ducalis
 
     def with_blacklisted_suffix?(name)
       return if cop_config['BlackList'].to_a.empty?
-      cop_config['BlackList'].any? { |suffix| name =~ /#{suffix}\Z/ }
+      cop_config['BlackList'].any? { |suffix| name.end_with?(suffix) }
     end
   end
 end

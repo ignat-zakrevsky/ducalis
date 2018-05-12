@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/data_access_objects'
 
@@ -130,5 +132,20 @@ RSpec.describe Ducalis::DataAccessObjects do
                      'end'
                    ])
     expect(cop).not_to raise_violation
+  end
+
+  it 'ignores non-controller classes `$redis` object' do
+    inspect_source([
+                     'class ProductsDAO',
+                     '  def update',
+                     '    $redis.incr("current_hits")',
+                     '  end',
+                     '',
+                     '  def show',
+                     '    $redis.get("current_hits").to_i',
+                     '  end',
+                     'end'
+                   ])
+    expect(cop).to_not raise_violation
   end
 end

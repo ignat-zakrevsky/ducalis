@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/fetch_expression'
 
@@ -24,5 +26,10 @@ RSpec.describe Ducalis::FetchExpression do
   it 'raises on using ternary operator with nil?' do
     inspect_source('params[:to].nil? ? destination : params[:to]')
     expect(cop).to raise_violation(/fetch/)
+  end
+
+  it 'works for empty file' do
+    inspect_source('')
+    expect(cop).not_to raise_violation
   end
 end

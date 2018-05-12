@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+SingleCov.covered!
+
 require 'spec_helper'
 require './lib/ducalis/cops/enforce_namespace'
 
@@ -34,6 +36,13 @@ RSpec.describe Ducalis::EnforceNamespace do
 
   it 'ignores multiple classes with namespace' do
     inspect_source('module My; class Service; end; class A; end; end')
+    expect(cop).not_to raise_violation
+  end
+
+  it 'ignores non-service classes/modules' do
+    allow(cop).to receive(:in_service?).and_return false
+    inspect_source('module User; end;')
+    inspect_source('class User; end;')
     expect(cop).not_to raise_violation
   end
 end
