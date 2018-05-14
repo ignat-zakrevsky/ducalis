@@ -5,7 +5,7 @@ require 'rubocop'
 module Ducalis
   class DescriptiveBlockNames < RuboCop::Cop::Cop
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
-      | Please, use descriptive names as block arguments. There is no any sanse to save on letters.
+      | Please, use descriptive names as block arguments. There is no any sense to save on letters.
     MESSAGE
 
     def on_block(node)
