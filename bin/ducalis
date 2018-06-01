@@ -9,7 +9,7 @@ require 'benchmark'
 cli_arguments = Ducalis::CliArguments.new
 
 if cli_arguments.help_command?
-  puts 'You can start Ducalis in the next modes:'
+  puts 'You can start Ducalis in the following modes:'
   puts ' --branch   check files in RuboCop style against branch.'
   puts '  --index   check files in RuboCop style against index.'
   puts '    --all   [default] check all files in RuboCop style.'
