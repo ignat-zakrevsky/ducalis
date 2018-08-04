@@ -79,8 +79,8 @@ class Documentation
   end
 
   def call
-    cops.map do |f|
-      present_cop(klass_const_for(f), spec_cases_for(f))
+    cops.map do |file|
+      present_cop(klass_const_for(file), spec_cases_for(file))
     end.flatten.join("\n")
   end
 
@@ -103,12 +103,12 @@ class Documentation
       end
   end
 
-  def prepare(it)
-    it.sub("#{RULE_WORD} ", '')
+  def prepare(it_description)
+    it_description.sub("#{RULE_WORD} ", '')
   end
 
-  def mention(it)
-    it.include?(SIGNAL_WORD) ? '# bad' : '# good'
+  def mention(it_description)
+    it_description.include?(SIGNAL_WORD) ? '# bad' : '# good'
   end
 
   def message(klass)
@@ -118,10 +118,10 @@ class Documentation
     ].join("\n")
   end
 
-  def spec_cases_for(f)
+  def spec_cases_for(file)
     source_code = File.read(
-      f.sub('/lib/', '/spec/')
-       .sub(/.rb$/, '_spec.rb')
+      file.sub('/lib/', '/spec/')
+          .sub(/.rb$/, '_spec.rb')
     )
     SpecsProcessor.new.tap do |processor|
       processor.process(Parser::CurrentRuby.parse(source_code))
@@ -133,9 +133,9 @@ class Documentation
     desc.include?(RULE_WORD)
   end
 
-  def klass_const_for(f)
-    require f
-    Ducalis.const_get(camelize(File.basename(f).sub(/.rb$/, '')))
+  def klass_const_for(file)
+    require file
+    Ducalis.const_get(camelize(File.basename(file).sub(/.rb$/, '')))
   end
 
   def camelize(snake_case_word)

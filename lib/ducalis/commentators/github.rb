@@ -53,7 +53,7 @@ module Ducalis
       end
 
       def commented_offenses
-        @_commented_offenses ||= Utils.octokit.pull_request_comments(@repo, @id)
+        @commented_offenses ||= Utils.octokit.pull_request_comments(@repo, @id)
       end
     end
   end

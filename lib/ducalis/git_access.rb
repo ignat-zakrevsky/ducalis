@@ -34,12 +34,12 @@ class GitAccess
   private
 
   def under_git?
-    @_under_git ||= Dir.exist?(File.join(Dir.pwd, GIT_DIR))
+    @under_git ||= Dir.exist?(File.join(Dir.pwd, GIT_DIR))
   end
 
   def changes
     return default_value if flag.nil? || !under_git?
-    @_changes ||= patch_diffs
+    @changes ||= patch_diffs
   end
 
   def patch_diffs
