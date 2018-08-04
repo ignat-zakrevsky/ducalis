@@ -30,6 +30,10 @@ Ducalis/PreferableMethods:
 Ducalis/CaseMapping:
   Enabled: true
 
+Ducalis/FacadePattern:
+  Enabled: true
+  MaxInstanceVariables: 4
+
 Ducalis/CallbacksActiverecord:
   Enabled: true
 
