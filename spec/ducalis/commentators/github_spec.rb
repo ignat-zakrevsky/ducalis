@@ -28,6 +28,7 @@ RSpec.describe Ducalis::Commentators::Github do
   context "when PR doesn't have any previous comments" do
     before do
       expect(octokit).to receive(:pull_request_comments).and_return([])
+      allow(Dir).to receive(:pwd).and_return('')
     end
 
     it 'comments offenses' do

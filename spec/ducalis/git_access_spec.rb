@@ -62,11 +62,18 @@ RSpec.describe GitAccess do
   describe '#for' do
     before { expect(subject).to receive(:changes).and_return([diff]) }
 
+    it 'resolves files with complex paths' do
+      expect(Dir).to receive(:pwd).and_return('/a/b/c/d')
+      expect(subject.for('/a/b/c/d/path')).to eq(diff)
+    end
+
     it 'returns diff for passed path' do
+      expect(Dir).to receive(:pwd).and_return('')
       expect(subject.for('path')).to eq(diff)
     end
 
     it 'returns nil diff for unknown path' do
+      expect(Dir).to receive(:pwd).and_return('')
       expect(subject.for('unknown_path').patch_line).to eq(-1)
     end
   end

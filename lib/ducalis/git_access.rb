@@ -28,7 +28,7 @@ class GitAccess
   end
 
   def for(path)
-    find(path)
+    find(Pathname.new(path).relative_path_from(Pathname.new(Dir.pwd)).to_s)
   end
 
   private
