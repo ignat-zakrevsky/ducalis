@@ -9,16 +9,17 @@ AllCops:
 Ducalis/BlackListSuffix:
   Enabled: true
   BlackList:
-    - Sorter
-    - Manager
-    - Client
-    - Object
-    - Handler
-    - Processor
-    - Organizer
     - Analyzer
-    - Renderer
+    - Client
+    - Handler
     - Loader
+    - Manager
+    - Object
+    - Organizer
+    - Processor
+    - Renderer
+    - Service
+    - Sorter
 
 Ducalis/EnforceNamespace:
   Enabled: true
