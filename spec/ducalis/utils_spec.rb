@@ -8,6 +8,7 @@ require './lib/ducalis/errors'
 RSpec.describe Ducalis::Utils do
   describe '#octokit' do
     let(:token) { '7103donotforgettoremovemefromgit' }
+    let(:client) { instance_double(Octokit::Client) }
 
     it 'raises missing token error when there is no key in ENV' do
       stub_const('ENV', {})
@@ -17,6 +18,8 @@ RSpec.describe Ducalis::Utils do
     it 'returns configured octokit version' do
       stub_const('ENV', 'GITHUB_TOKEN' => token)
       expect(Octokit::Client).to receive(:new).with(access_token: token)
+                                              .and_return(client)
+      expect(client).to receive(:auto_paginate=).with(true)
       described_class.octokit
     end
   end

@@ -9,7 +9,9 @@ module Ducalis
     def octokit
       @octokit ||= begin
         token = ENV.fetch('GITHUB_TOKEN') { raise MissingToken }
-        Octokit::Client.new(access_token: token)
+        Octokit::Client.new(access_token: token).tap do |client|
+          client.auto_paginate = true
+        end
       end
     end
 
