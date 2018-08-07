@@ -28,6 +28,7 @@ class GitAccess
   end
 
   def for(path)
+    return find(path) unless path.include?(Dir.pwd)
     find(Pathname.new(path).relative_path_from(Pathname.new(Dir.pwd)).to_s)
   end
 
