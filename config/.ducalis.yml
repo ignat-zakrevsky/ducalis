@@ -27,6 +27,9 @@ Ducalis/EnforceNamespace:
 Ducalis/PreferableMethods:
   Enabled: true
 
+Ducalis/Recursion:
+  Enabled: true
+
 Ducalis/CaseMapping:
   Enabled: true
 
