@@ -25,7 +25,7 @@ RSpec.describe Ducalis::FacadePattern do
                      '  end',
                      'end'
                    ])
-    expect(cop).to raise_violation(/Facade/)
+    expect(cop).to raise_violation(/Facade/, count: 6)
   end
 
   it '[rule] better to use facade pattern' do
