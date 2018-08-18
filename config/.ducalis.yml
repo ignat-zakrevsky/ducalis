@@ -31,6 +31,10 @@ Ducalis/PreferableMethods:
 Ducalis/Recursion:
   Enabled: true
 
+Ducalis/ComplexRegex:
+  Enabled: true
+  MaxComplexity: 3
+
 Ducalis/CaseMapping:
   Enabled: true
 

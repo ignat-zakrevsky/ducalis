@@ -30,5 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'git', '~> 1.3', '>= 1.3.0'
   spec.add_dependency 'octokit', '>= 4.7.0'
   spec.add_dependency 'regexp-examples', '~> 1.3', '>= 1.3.2'
+  spec.add_dependency 'regexp_parser', '>= 0.5.0'
   spec.add_dependency 'rubocop', '>= 0.45.0'
 end
