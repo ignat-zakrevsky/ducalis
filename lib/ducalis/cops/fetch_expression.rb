@@ -4,7 +4,7 @@ require 'rubocop'
 
 module Ducalis
   class FetchExpression < RuboCop::Cop::Cop
-    HASH_CALLING_REGEX = /\:\[\]/ # params[:key]
+    HASH_CALLING_REGEX = /\:\[\]/.freeze # params[:key]
 
     OFFENSE = <<-MESSAGE.gsub(/^ +\|\s/, '').strip
       | You can use `fetch` instead:
@@ -19,6 +19,7 @@ module Ducalis
 
     def investigate(processed_source)
       return unless processed_source.ast
+
       matching_nodes(processed_source.ast).each do |node|
         add_offense(node, :expression, format(OFFENSE,
                                               source: correct_variant(node)))

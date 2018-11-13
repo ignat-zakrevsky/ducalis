@@ -12,6 +12,7 @@ module Ducalis
       args = node.type == :defs ? node.to_a[2] : node.to_a[1]
       args.children.each do |arg_node|
         next unless arg_node.type == :optarg
+
         add_offense(node, :expression, OFFENSE)
       end
     end

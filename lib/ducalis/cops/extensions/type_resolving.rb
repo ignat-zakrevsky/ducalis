@@ -40,6 +40,7 @@ module TypeResolving
 
   def in_controller?
     return false if @superclass_name.nil?
+
     @superclass_name.end_with?(*CONTROLLER_SUFFIXES)
   end
 

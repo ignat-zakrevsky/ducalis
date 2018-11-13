@@ -2,10 +2,10 @@
 
 module Ducalis
   class Patch
-    RANGE_LINE = /^@@ .+\+(?<line_number>\d+),/
-    MODIFIED_LINE = /^\+(?!\+|\+)/
-    NOT_REMOVED_LINE = /^[^-]/
-    ANY_LINE = /.*/
+    RANGE_LINE = /^@@ .+\+(?<line_number>\d+),/.freeze
+    MODIFIED_LINE = /^\+(?!\+|\+)/.freeze
+    NOT_REMOVED_LINE = /^[^-]/.freeze
+    ANY_LINE = /.*/.freeze
 
     DIFF_LINES = {
       RANGE_LINE => lambda do |lines, _line_number, line, _position|

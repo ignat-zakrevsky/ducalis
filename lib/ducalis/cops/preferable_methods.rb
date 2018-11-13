@@ -70,8 +70,10 @@ module Ducalis
     def on_send(node)
       who, what, *args = *node
       return unless DESCRIPTION.key?(what)
+
       alternative, reason, condition = DESCRIPTION.fetch(what)
       return unless condition.call(who, what, args)
+
       add_offense(node, :expression, format(OFFENSE, original: what,
                                                      alternative: alternative,
                                                      reason: reason))

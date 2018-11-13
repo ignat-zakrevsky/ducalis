@@ -44,6 +44,7 @@ module Ducalis
     def on_begin(node)
       not_defined_regexes(node).each do |regex|
         next if SELF_DESCRIPTIVE.include?(regex.source) || const_dynamic?(regex)
+
         add_offense(regex, :expression, format(OFFENSE, present_node(regex)))
       end
     end

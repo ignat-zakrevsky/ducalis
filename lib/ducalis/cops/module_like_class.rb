@@ -13,8 +13,10 @@ module Ducalis
     def on_class(node)
       _name, inheritance, body = *node
       return if !inheritance.nil? || body.nil? || allowed_include?(body)
+
       matched = matched_args(body)
       return if matched.empty?
+
       add_offense(node, :expression,
                   format(OFFENSE, args:
                       matched.map { |arg| "`#{arg}`" }.join(', ')))
@@ -24,12 +26,14 @@ module Ducalis
 
     def allowed_include?(body)
       return if cop_config['AllowedIncludes'].to_a.empty?
+
       (all_includes(body) & cop_config['AllowedIncludes']).any?
     end
 
     def matched_args(body)
       methods_defintions = children(body).select(&public_method_definition?)
       return [] if methods_defintions.count == 1 && with_initialize?(body)
+
       methods_defintions.map(&method_args).inject(&:&).to_a
     end
 

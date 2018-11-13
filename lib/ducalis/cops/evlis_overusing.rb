@@ -16,11 +16,13 @@ module Ducalis
 
     def on_send(node)
       return unless nested_try?(node)
+
       add_offense(node, :expression, OFFENSE)
     end
 
     def on_csend(node)
       return unless node.child_nodes.any?(&:csend_type?)
+
       add_offense(node, :expression, OFFENSE)
     end
 

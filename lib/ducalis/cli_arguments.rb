@@ -40,6 +40,7 @@ module Ducalis
         ARGV.include?(to_key(mode))
       end
       return unless git_mode
+
       ARGV.delete(to_key(git_mode))
       GitAccess.instance.flag = git_mode
     end

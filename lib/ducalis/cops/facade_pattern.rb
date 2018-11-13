@@ -19,8 +19,10 @@ module Ducalis
     def on_def(node)
       return unless in_controller?
       return if non_public?(node)
+
       assigns = instance_variables_matches(node)
       return if assigns.count < max_instance_variables
+
       assigns.each { |assign| add_offense(assign, :expression, OFFENSE) }
     end
 

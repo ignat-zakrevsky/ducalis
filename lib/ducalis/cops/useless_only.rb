@@ -32,9 +32,11 @@ module Ducalis
       _, method_name, *args = *node
       hash_node = args.find { |subnode| subnode.type == :hash }
       return unless FILTERS.include?(method_name) && hash_node
+
       type, method_names = decomposite_hash(hash_node)
       return unless type == s(:sym, :only)
       return unless method_names.children.count == 1
+
       add_offense(node, :selector, OFFENSE)
     end
 

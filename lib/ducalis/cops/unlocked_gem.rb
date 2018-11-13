@@ -10,6 +10,7 @@ module Ducalis
 
     def investigate(processed_source)
       return unless processed_source.ast
+
       gem_declarations(processed_source.ast).select do |node|
         _, _, gemname, _args = *node
         add_offense(node, :selector,

@@ -22,6 +22,7 @@ module Ducalis
     def on_send(node)
       return unless [find_method?(node), find_by_id?(node)].any?
       return unless const_like?(node)
+
       add_offense(node, :expression, OFFENSE)
     end
 

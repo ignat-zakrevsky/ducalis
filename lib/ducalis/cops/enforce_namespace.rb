@@ -12,12 +12,14 @@ module Ducalis
 
     def on_class(node)
       return if !node.parent.nil? || !in_service?
+
       add_offense(node, :expression, OFFENSE)
     end
 
     def on_module(node)
       return if !node.parent.nil? || !in_service?
       return if contains_class?(node) || contains_classes?(node)
+
       add_offense(node, :expression, OFFENSE)
     end
 

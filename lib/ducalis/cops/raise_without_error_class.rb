@@ -12,6 +12,7 @@ module Ducalis
       _who, what, *args = *node
       return if what != :raise
       return if args.first && args.first.type != :str
+
       add_offense(node, :expression, OFFENSE)
     end
   end

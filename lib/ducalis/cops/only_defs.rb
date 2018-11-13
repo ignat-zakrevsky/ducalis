@@ -19,6 +19,7 @@ module Ducalis
       return if !inheritance.nil? || body.nil?
       return unless !instance_methods_definitions?(body) &&
                     class_methods_defintions?(body)
+
       add_offense(node, :expression, OFFENSE)
     end
 

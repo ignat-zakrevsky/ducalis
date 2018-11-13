@@ -20,6 +20,7 @@ module Ducalis
 
     def inspect_args(args)
       return if Array(args).empty?
+
       args.find { |arg| arg == PARAMS_CALL }.tap do |node|
         return node if node
       end
@@ -28,6 +29,7 @@ module Ducalis
 
     def inspect_hash(args)
       return if args.nil?
+
       args.children.find { |arg| arg.to_a[1] == PARAMS_CALL }
     end
   end

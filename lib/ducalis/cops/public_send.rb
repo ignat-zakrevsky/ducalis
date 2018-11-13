@@ -10,6 +10,7 @@ module Ducalis
 
     def on_send(node)
       return unless send_call?(node)
+
       add_offense(node, :expression, OFFENSE)
     end
 

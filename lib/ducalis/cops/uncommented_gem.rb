@@ -16,9 +16,11 @@ module Ducalis
 
     def investigate(processed_source)
       return unless processed_source.ast
+
       gem_declarations(processed_source.ast).select do |node|
         _, _, gemname, _args = *node
         next if commented?(processed_source, node)
+
         add_offense(node, :selector,
                     format(OFFENSE, gem: gemname.loc.expression.source))
       end
@@ -36,6 +38,7 @@ module Ducalis
 
     def allowed_args?(args)
       return false if args.nil? || args.type != :hash
+
       args.children.any? do |arg_node|
         !ALLOWED_KEYS.include?(arg_node.children.first.source)
       end

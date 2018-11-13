@@ -39,6 +39,7 @@ module Ducalis
 
     def on_def(node)
       return unless options_like_arg?(node)
+
       add_offense(node, :expression, OFFENSE)
     end
 

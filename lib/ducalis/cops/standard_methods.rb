@@ -14,6 +14,7 @@ module Ducalis
     def on_def(node)
       name, _args, _body = *node
       return unless BLACK_LIST.include?(name)
+
       add_offense(node, :expression, OFFENSE)
     end
   end

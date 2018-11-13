@@ -33,6 +33,7 @@ module Ducalis
         time_current(body), time_now(body)
       ].map(&:to_a).compact.flatten.to_a
       return if multiple.count < 2
+
       multiple.each do |time_node|
         add_offense(time_node, :expression, OFFENSE)
       end

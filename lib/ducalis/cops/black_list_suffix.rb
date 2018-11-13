@@ -17,6 +17,7 @@ module Ducalis
     def on_class(node)
       classdef_node, _superclass, _body = *node
       return unless with_blacklisted_suffix?(classdef_node.source)
+
       add_offense(node, :expression, OFFENSE)
     end
 
@@ -24,6 +25,7 @@ module Ducalis
 
     def with_blacklisted_suffix?(name)
       return if cop_config['BlackList'].to_a.empty?
+
       cop_config['BlackList'].any? { |suffix| name.end_with?(suffix) }
     end
   end

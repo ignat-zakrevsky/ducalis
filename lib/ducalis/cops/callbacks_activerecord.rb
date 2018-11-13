@@ -40,6 +40,7 @@ module Ducalis
     def on_send(node)
       return unless in_model?
       return unless METHODS_BLACK_LIST.include?(node.method_name)
+
       add_offense(node, :selector, OFFENSE)
     end
   end

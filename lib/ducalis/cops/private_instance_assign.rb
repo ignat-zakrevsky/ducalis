@@ -22,6 +22,7 @@ module Ducalis
       return unless in_controller?
       return unless non_public?(node)
       return check_memo(node) if node.parent.type == :or_asgn
+
       add_offense(node, :expression, OFFENSE)
     end
 
@@ -29,6 +30,7 @@ module Ducalis
 
     def check_memo(node)
       return if node.to_a.first.to_s.start_with?('@_')
+
       add_offense(node, :expression, [OFFENSE, ADD_OFFENSE].join(' '))
     end
   end

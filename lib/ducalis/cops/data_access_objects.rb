@@ -22,6 +22,7 @@ module Ducalis
     def on_send(node)
       return unless in_controller?
       return unless NODE_EXPRESSIONS.include?(node.to_a.first)
+
       add_offense(node, :expression, OFFENSE)
     end
   end

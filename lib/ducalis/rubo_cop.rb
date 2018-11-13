@@ -3,6 +3,7 @@
 module PatchedRubocop
   CURRENT_VERSION = Gem::Version.new(RuboCop::Version.version)
   ADAPTED_VERSION = Gem::Version.new('0.46.0')
+  SPEC_CHANGES_VERSION = Gem::Version.new('0.59.0')
 end
 
 module RuboCop

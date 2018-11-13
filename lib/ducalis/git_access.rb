@@ -9,7 +9,7 @@ class GitAccess
 
   MODES = {
     branch: ->(git) { git.diff('origin/master') },
-    index:  ->(git) { git.diff('HEAD') }
+    index: ->(git) { git.diff('HEAD') }
   }.freeze
 
   include Diffs
@@ -29,6 +29,7 @@ class GitAccess
 
   def for(path)
     return find(path) unless path.include?(Dir.pwd)
+
     find(Pathname.new(path).relative_path_from(Pathname.new(Dir.pwd)).to_s)
   end
 
@@ -40,6 +41,7 @@ class GitAccess
 
   def changes
     return default_value if flag.nil? || !under_git?
+
     @changes ||= patch_diffs
   end
 
@@ -53,6 +55,7 @@ class GitAccess
 
   def default_value
     raise Ducalis::MissingGit unless flag.nil?
+
     []
   end
 

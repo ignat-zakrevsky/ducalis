@@ -8,10 +8,10 @@ require 'parser/current'
 class SpecsProcessor < Parser::AST::Processor
   attr_reader :cases
 
-  LINE_BEGIN_OPEN_SQUARE_BRACKET = /\A\[/  # "/[/1, 2, 3]\n"
-  CLOSE_SQUARE_BRACKET_END_LINE = /\]\z/   # "[1, 2, 3/]\n/"
-  LINE_BEGIN_QUOTE = /\A[\'|\"]/           # "/'/idddqd',"
-  QUOTE_COMMA_END_LINE = /[\'|\"]\,?\z/    # "'iddqd/',/"
+  LINE_BEGIN_OPEN_SQUARE_BRACKET = /\A\[/.freeze  # "/[/1, 2, 3]\n"
+  CLOSE_SQUARE_BRACKET_END_LINE = /\]\z/.freeze   # "[1, 2, 3/]\n/"
+  LINE_BEGIN_QUOTE = /\A[\'|\"]/.freeze           # "/'/idddqd',"
+  QUOTE_COMMA_END_LINE = /[\'|\"]\,?\z/.freeze    # "'iddqd/',/"
 
   def initialize(*)
     super

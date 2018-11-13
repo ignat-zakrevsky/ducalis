@@ -16,8 +16,10 @@ module Ducalis
 
     def on_class(node)
       return unless in_worker?
+
       length = code_length(node)
       return unless length > max_length
+
       add_offense(node, :expression, "#{OFFENSE} [#{length}/#{max_length}]")
     end
   end

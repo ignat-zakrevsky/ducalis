@@ -12,6 +12,7 @@ module Ducalis
       @method_name, _args, body = *node
       return unless body
       return unless send_call?(body) || send_self_call?(body)
+
       add_offense(node, :expression, OFFENSE)
     end
 

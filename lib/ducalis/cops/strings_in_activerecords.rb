@@ -19,8 +19,10 @@ module Ducalis
       _, method_name, *args = *node
       return unless VALIDATEBLE_METHODS.include?(method_name)
       return if args.empty?
+
       node.to_a.last.each_child_node do |current_node|
         next if skip_node?(current_node)
+
         add_offense(node, :selector, format(OFFENSE, method_name: method_name))
       end
     end
@@ -32,6 +34,7 @@ module Ducalis
       return true unless current_node.type == :pair
       return true unless %w[if unless].include?(key.source)
       return true unless value.type == :str
+
       false
     end
   end

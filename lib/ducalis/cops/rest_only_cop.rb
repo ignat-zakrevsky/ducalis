@@ -22,8 +22,10 @@ module Ducalis
     def on_def(node)
       return unless in_controller?
       return if non_public?(node)
+
       method_name, = *node
       return if WHITELIST.include?(method_name)
+
       add_offense(node, :expression, OFFENSE)
     end
     alias on_defs on_def
