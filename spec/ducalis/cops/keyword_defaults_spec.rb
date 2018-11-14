@@ -32,4 +32,9 @@ RSpec.describe Ducalis::KeywordDefaults do
     inspect_source('def self.calculate_amount; end')
     expect(cop).not_to raise_violation
   end
+
+  it 'does not raise when method contains only 1 argument' do
+    inspect_source('def calculate(dry = true); end')
+    expect(cop).not_to raise_violation
+  end
 end
