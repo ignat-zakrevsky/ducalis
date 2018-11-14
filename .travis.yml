@@ -13,4 +13,4 @@ script:
 matrix:
   include:
     - rvm: 2.5.3
-      env: IGNORE_LEGACY=true
+      env: IGNORE_LEGACY=true WITH_DOCS=true
