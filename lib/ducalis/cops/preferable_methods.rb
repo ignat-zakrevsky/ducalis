@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rubocop'
+require 'ducalis/cops/complex_cases/smart_delete_check'
 
 module Ducalis
   class PreferableMethods < RuboCop::Cop::Cop
@@ -8,14 +9,7 @@ module Ducalis
       | Prefer to use %<alternative>s method instead of %<original>s because of %<reason>s.
     MESSAGE
 
-    WHITE_LIST = %w[cache file params attrs options].freeze
-
     ALWAYS_TRUE = ->(_who, _what, _args) { true }
-
-    DELETE_CHECK = lambda do |who, _what, args|
-      !%i[sym str].include?(args.first && args.first.type) &&
-        args.count <= 1 && WHITE_LIST.none? { |regex| who.to_s.include?(regex) }
-    end
 
     VALIDATE_CHECK = lambda do |_who, _what, args|
       (args.first && args.first.source) =~ /validate/
@@ -40,7 +34,7 @@ module Ducalis
       delete: [
         '`destroy`',
         'it is not invoking callbacks',
-        DELETE_CHECK
+        ComplexCases::SmartDeleteCheck
       ],
       delete_all: [
         '`destroy_all`',

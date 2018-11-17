@@ -60,6 +60,11 @@ RSpec.describe Ducalis::PreferableMethods do
     expect(cop).not_to raise_violation
   end
 
+  it 'ignores calling `delete` on File class' do
+    inspect_source('File.delete')
+    expect(cop).not_to raise_violation
+  end
+
   it 'ignores calling `delete` on files-like variables' do
     inspect_source('tempfile.delete')
     expect(cop).not_to raise_violation
