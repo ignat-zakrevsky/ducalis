@@ -24,7 +24,7 @@ __Ducalis__ is CLI application. By defaukt it will notify you about any possible
  violations in CLI.
 
 ```
-ducalis
+ducalis .
 ducalis app/controllers/
 ```
 
@@ -32,16 +32,16 @@ __Ducalis__ allows to pass build even with violations it's make sense to run
 __Ducalis__ across current branch or index:
 
 ```
-ducalis --branch
-ducalis --index
+ducalis --branch .
+ducalis --index .
 ```
 
 Additionally you can pass `--reporter` argument to notify about found violations
  in boundaries of PR:
 
 ```
-ducalis --reporter "author/repo#42"
-ducalis --reporter "circleci"
+ducalis --reporter "author/repo#42" .
+ducalis --reporter "circleci" .
 ```
 
 _N.B._ You should provide `GITHUB_TOKEN` Env to allow __Ducalis__ download your

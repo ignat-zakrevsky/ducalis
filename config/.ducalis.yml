@@ -5,8 +5,6 @@ AllCops:
     - 'db/**/*'
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
-    - 'spec/**/*'
-    - 'test/**/*'
 
 Ducalis/BlackListSuffix:
   Enabled: true
@@ -54,7 +52,7 @@ Ducalis/PossibleTap:
   Enabled: false
 
 Ducalis/PublicSend:
-  Enabled: false
+  Enabled: true
 
 Ducalis/FetchExpression:
   Enabled: true
