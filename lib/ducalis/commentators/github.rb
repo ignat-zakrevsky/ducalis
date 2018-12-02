@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'ducalis/commentators/message'
+
 module Ducalis
   module Commentators
     class Github
@@ -42,7 +44,7 @@ module Ducalis
 
       def present_offense(offense)
         {
-          body: offense.message,
+          body: Message.new(offense).with_link,
           path: diff_for(offense).path,
           position: diff_for(offense).patch_line(offense.line)
         }

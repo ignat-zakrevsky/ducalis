@@ -20,6 +20,9 @@ RSpec.describe Ducalis::Commentators::Github do
   let(:buffer) { instance_double(Parser::Source::Buffer, name: path) }
   let(:range)  { instance_double(Parser::Source::Range, source_buffer: buffer) }
 
+  let(:message_extension) do
+    instance_double(Ducalis::Commentators::Message, with_link: message)
+  end
   let(:offense) do
     instance_double(RuboCop::Cop::Offense,
                     message: message, location: range, line: position)
@@ -27,8 +30,10 @@ RSpec.describe Ducalis::Commentators::Github do
 
   context "when PR doesn't have any previous comments" do
     before do
+      expect(Ducalis::Commentators::Message).to receive(:new).with(offense)
+        .twice.and_return(message_extension)
       expect(octokit).to receive(:pull_request_comments).and_return([])
-      allow(Dir).to receive(:pwd).and_return('')
+      expect(Dir).to receive(:pwd).exactly(8).times.and_return('')
     end
 
     it 'comments offenses' do
@@ -37,11 +42,14 @@ RSpec.describe Ducalis::Commentators::Github do
     end
   end
 
-  context 'when PR already commented but another case' do
+  context 'when PR already commented but some offenses are not' do
     let(:nil_diff) { double(:diff, path: 'some/path', patch_line: -1) }
 
     before do
-      allow(GitAccess.instance).to receive(:for).with(path).and_return(nil_diff)
+      expect(Ducalis::Commentators::Message).to receive(:new).with(offense)
+        .twice.and_return(message_extension)
+      expect(GitAccess.instance).to receive(:for)
+        .with(path).exactly(4).times.and_return(nil_diff)
       expect(octokit).to receive(:pull_request_comments)
         .and_return([existing_comment])
     end
@@ -56,7 +64,10 @@ RSpec.describe Ducalis::Commentators::Github do
     let(:git_diff) { double(:diff, path: path, patch_line: position) }
 
     before do
-      allow(GitAccess.instance).to receive(:for).with(path).and_return(git_diff)
+      expect(Ducalis::Commentators::Message).to receive(:new)
+        .with(offense).and_return(message_extension)
+      expect(GitAccess.instance).to receive(:for)
+        .with(path).twice.and_return(git_diff)
       expect(octokit).to receive(:pull_request_comments)
         .and_return([existing_comment])
     end
